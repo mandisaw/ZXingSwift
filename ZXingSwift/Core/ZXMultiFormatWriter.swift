@@ -83,7 +83,7 @@ public final class ZXMultiFormatWriter : NSObject {
 			break;
 */			
 		case .Codabar:
-			writer = ZXCodaBarWriter();
+			writer = ZXCodabarWriter();
 			break;
 			
 		default:

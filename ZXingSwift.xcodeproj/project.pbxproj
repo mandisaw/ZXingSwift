@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E929AFAA1E983F72007E166E /* ZXOneDimensionalCodeWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E929AFA91E983F72007E166E /* ZXOneDimensionalCodeWriter.swift */; };
+		E929AFAC1E98496E007E166E /* ZXCodabarWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E929AFAB1E98496E007E166E /* ZXCodabarWriter.swift */; };
+		E987C9D91E9BCA35006CC936 /* ZXCodabarReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E987C9D81E9BCA35006CC936 /* ZXCodabarReader.swift */; };
 		E9CE9FEA1E9818410024DD88 /* ZXingSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = E9CE9FE81E9818410024DD88 /* ZXingSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9CE9FF11E9818840024DD88 /* ZXWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CE9FF01E9818840024DD88 /* ZXWriter.swift */; };
 		E9CE9FF31E981BA00024DD88 /* ZXError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CE9FF21E981BA00024DD88 /* ZXError.swift */; };
@@ -17,6 +20,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E929AFA91E983F72007E166E /* ZXOneDimensionalCodeWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZXOneDimensionalCodeWriter.swift; path = OneDimensional/ZXOneDimensionalCodeWriter.swift; sourceTree = "<group>"; };
+		E929AFAB1E98496E007E166E /* ZXCodabarWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZXCodabarWriter.swift; path = OneDimensional/ZXCodabarWriter.swift; sourceTree = "<group>"; };
+		E987C9D81E9BCA35006CC936 /* ZXCodabarReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZXCodabarReader.swift; path = OneDimensional/ZXCodabarReader.swift; sourceTree = "<group>"; };
 		E9CE9FE51E9818410024DD88 /* ZXingSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZXingSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9CE9FE81E9818410024DD88 /* ZXingSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXingSwift.h; sourceTree = "<group>"; };
 		E9CE9FE91E9818410024DD88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -39,6 +45,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E929AFA81E983F4D007E166E /* OneDimensional */ = {
+			isa = PBXGroup;
+			children = (
+				E929AFA91E983F72007E166E /* ZXOneDimensionalCodeWriter.swift */,
+				E929AFAB1E98496E007E166E /* ZXCodabarWriter.swift */,
+				E987C9D81E9BCA35006CC936 /* ZXCodabarReader.swift */,
+			);
+			name = OneDimensional;
+			sourceTree = "<group>";
+		};
 		E9CE9FDB1E9818410024DD88 = {
 			isa = PBXGroup;
 			children = (
@@ -58,6 +74,7 @@
 		E9CE9FE71E9818410024DD88 /* ZXingSwift */ = {
 			isa = PBXGroup;
 			children = (
+				E929AFA81E983F4D007E166E /* OneDimensional */,
 				E9CE9FFA1E98284F0024DD88 /* Common */,
 				E9CE9FFB1E98285E0024DD88 /* Core */,
 				E9CE9FE81E9818410024DD88 /* ZXingSwift.h */,
@@ -169,10 +186,13 @@
 			files = (
 				E9CE9FFF1E982E930024DD88 /* ZXBitMatrix.swift in Sources */,
 				E9CE9FF91E9824820024DD88 /* ZXMultiFormatWriter.swift in Sources */,
+				E929AFAA1E983F72007E166E /* ZXOneDimensionalCodeWriter.swift in Sources */,
+				E929AFAC1E98496E007E166E /* ZXCodabarWriter.swift in Sources */,
 				E9CE9FF31E981BA00024DD88 /* ZXError.swift in Sources */,
 				E9CE9FF51E981C990024DD88 /* ZXBarcodeFormat.swift in Sources */,
 				E9CE9FF71E981E590024DD88 /* ZXEncodeHintType.swift in Sources */,
 				E9CE9FF11E9818840024DD88 /* ZXWriter.swift in Sources */,
+				E987C9D91E9BCA35006CC936 /* ZXCodabarReader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
