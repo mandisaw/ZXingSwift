@@ -8,12 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		E9CE9FEA1E9818410024DD88 /* ZXingSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = E9CE9FE81E9818410024DD88 /* ZXingSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9CE9FF11E9818840024DD88 /* ZXWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CE9FF01E9818840024DD88 /* ZXWriter.swift */; };
+		E9CE9FF31E981BA00024DD88 /* ZXError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CE9FF21E981BA00024DD88 /* ZXError.swift */; };
+		E9CE9FF51E981C990024DD88 /* ZXBarcodeFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CE9FF41E981C990024DD88 /* ZXBarcodeFormat.swift */; };
+		E9CE9FF71E981E590024DD88 /* ZXEncodeHintType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CE9FF61E981E590024DD88 /* ZXEncodeHintType.swift */; };
+		E9CE9FF91E9824820024DD88 /* ZXMultiFormatWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CE9FF81E9824820024DD88 /* ZXMultiFormatWriter.swift */; };
+		E9CE9FFF1E982E930024DD88 /* ZXBitMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CE9FFE1E982E930024DD88 /* ZXBitMatrix.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E9CE9FE51E9818410024DD88 /* ZXingSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZXingSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9CE9FE81E9818410024DD88 /* ZXingSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXingSwift.h; sourceTree = "<group>"; };
 		E9CE9FE91E9818410024DD88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E9CE9FF01E9818840024DD88 /* ZXWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZXWriter.swift; sourceTree = "<group>"; };
+		E9CE9FF21E981BA00024DD88 /* ZXError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZXError.swift; sourceTree = "<group>"; };
+		E9CE9FF41E981C990024DD88 /* ZXBarcodeFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZXBarcodeFormat.swift; sourceTree = "<group>"; };
+		E9CE9FF61E981E590024DD88 /* ZXEncodeHintType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZXEncodeHintType.swift; sourceTree = "<group>"; };
+		E9CE9FF81E9824820024DD88 /* ZXMultiFormatWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZXMultiFormatWriter.swift; sourceTree = "<group>"; };
+		E9CE9FFE1E982E930024DD88 /* ZXBitMatrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZXBitMatrix.swift; path = Common/ZXBitMatrix.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,10 +58,32 @@
 		E9CE9FE71E9818410024DD88 /* ZXingSwift */ = {
 			isa = PBXGroup;
 			children = (
+				E9CE9FFA1E98284F0024DD88 /* Common */,
+				E9CE9FFB1E98285E0024DD88 /* Core */,
 				E9CE9FE81E9818410024DD88 /* ZXingSwift.h */,
 				E9CE9FE91E9818410024DD88 /* Info.plist */,
 			);
 			path = ZXingSwift;
+			sourceTree = "<group>";
+		};
+		E9CE9FFA1E98284F0024DD88 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				E9CE9FFE1E982E930024DD88 /* ZXBitMatrix.swift */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
+		E9CE9FFB1E98285E0024DD88 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				E9CE9FF41E981C990024DD88 /* ZXBarcodeFormat.swift */,
+				E9CE9FF61E981E590024DD88 /* ZXEncodeHintType.swift */,
+				E9CE9FF21E981BA00024DD88 /* ZXError.swift */,
+				E9CE9FF01E9818840024DD88 /* ZXWriter.swift */,
+				E9CE9FF81E9824820024DD88 /* ZXMultiFormatWriter.swift */,
+			);
+			path = Core;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -96,6 +130,7 @@
 					E9CE9FE41E9818410024DD88 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 68K8V4FTKE;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -132,6 +167,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9CE9FFF1E982E930024DD88 /* ZXBitMatrix.swift in Sources */,
+				E9CE9FF91E9824820024DD88 /* ZXMultiFormatWriter.swift in Sources */,
+				E9CE9FF31E981BA00024DD88 /* ZXError.swift in Sources */,
+				E9CE9FF51E981C990024DD88 /* ZXBarcodeFormat.swift in Sources */,
+				E9CE9FF71E981E590024DD88 /* ZXEncodeHintType.swift in Sources */,
+				E9CE9FF11E9818840024DD88 /* ZXWriter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,7 +220,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -226,7 +267,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -240,6 +281,7 @@
 		E9CE9FEE1E9818410024DD88 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 68K8V4FTKE;
@@ -252,6 +294,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.zxing.ZXingSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -259,6 +302,7 @@
 		E9CE9FEF1E9818410024DD88 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 68K8V4FTKE;
@@ -294,6 +338,7 @@
 				E9CE9FEF1E9818410024DD88 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
