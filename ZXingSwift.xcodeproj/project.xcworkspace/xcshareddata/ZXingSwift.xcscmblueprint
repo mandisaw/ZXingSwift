@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "79ECEAF530F7C796D0673DE4C523CB1EBB1678B8",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "79ECEAF530F7C796D0673DE4C523CB1EBB1678B8" : 9223372036854775807,
+    "417E9195DCA6676CF98E963E3CBCA888B1419406" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "286AF815-02D8-492C-9899-9F67D2BDDE76",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "79ECEAF530F7C796D0673DE4C523CB1EBB1678B8" : "ZXingSwift\/",
+    "417E9195DCA6676CF98E963E3CBCA888B1419406" : ".."
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "ZXingSwift",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "ZXingSwift.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/brooklyncollege\/raindrop-ios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "417E9195DCA6676CF98E963E3CBCA888B1419406"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/mandisaw\/ZXingSwift.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "79ECEAF530F7C796D0673DE4C523CB1EBB1678B8"
+    }
+  ]
+}
