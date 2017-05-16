@@ -33,21 +33,25 @@ public class ZXCodabarWriter : ZXOneDimensionalCodeWriter {
 		
 		var result = Array<Bool> (repeating: White, count: encodedLength);
 		
-		var color : Bool = Black;
 		var globalPosition : Int = 0;
-		var localPosition : Int = 0;
-		var curr_bit : Int = 0;
+		var localPosition : Int;
+		var curr_bit : Int;
+		var color : Bool;
 		
 		for (characterIndex, characterCode) in CodabarEncoding.enumerated() {
 			// Each character is encoded by a 7-bit sequence
+			
+			localPosition = 0;
+			curr_bit = 0;
+			color = Black;
 			
 			while (curr_bit < 7) {
 				result [globalPosition] = color;
 				globalPosition += 1;
 				
 				// Check for color-flip
-				if (((characterCode >> (6 - curr_bit)) & 1) == 0) || 
-					(localPosition == 1) {
+				if ((((characterCode >> (6 - curr_bit)) & 1) == 0) || 
+					(localPosition == 1)) {
 					
 					color = !color;
 					curr_bit += 1;
