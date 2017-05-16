@@ -36,6 +36,10 @@ public final class ZXBitMatrix : NSObject {
 		super.init();
 	}
 	
+	public func getValues<T> (transform: (Bool) throws -> T) rethrows -> [T] {
+		return try bits.map (transform);
+	}
+	
 	/** 
 	 - Returns: The bit at the requested position, where True = Black/On
 	 */
