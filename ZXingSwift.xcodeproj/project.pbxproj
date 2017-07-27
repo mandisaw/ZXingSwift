@@ -10,6 +10,10 @@
 		E929AFAA1E983F72007E166E /* ZXOneDimensionalCodeWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E929AFA91E983F72007E166E /* ZXOneDimensionalCodeWriter.swift */; };
 		E929AFAC1E98496E007E166E /* ZXCodabarWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E929AFAB1E98496E007E166E /* ZXCodabarWriter.swift */; };
 		E987C9D91E9BCA35006CC936 /* ZXCodabarReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E987C9D81E9BCA35006CC936 /* ZXCodabarReader.swift */; };
+		E9AA31B61F1FAB88001550EB /* ZXGenericGF.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AA31B51F1FAB88001550EB /* ZXGenericGF.swift */; };
+		E9AA31B81F1FAD77001550EB /* ZXGenericGFPoly.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AA31B71F1FAD77001550EB /* ZXGenericGFPoly.swift */; };
+		E9AA31BC1F1FF5B1001550EB /* ZXReedSolomonEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AA31BB1F1FF5B1001550EB /* ZXReedSolomonEncoder.swift */; };
+		E9AA31BE1F200038001550EB /* ZXCharacterSetECI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AA31BD1F200038001550EB /* ZXCharacterSetECI.swift */; };
 		E9CE9FEA1E9818410024DD88 /* ZXingSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = E9CE9FE81E9818410024DD88 /* ZXingSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9CE9FF11E9818840024DD88 /* ZXWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CE9FF01E9818840024DD88 /* ZXWriter.swift */; };
 		E9CE9FF31E981BA00024DD88 /* ZXError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CE9FF21E981BA00024DD88 /* ZXError.swift */; };
@@ -17,12 +21,17 @@
 		E9CE9FF71E981E590024DD88 /* ZXEncodeHintType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CE9FF61E981E590024DD88 /* ZXEncodeHintType.swift */; };
 		E9CE9FF91E9824820024DD88 /* ZXMultiFormatWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CE9FF81E9824820024DD88 /* ZXMultiFormatWriter.swift */; };
 		E9CE9FFF1E982E930024DD88 /* ZXBitMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CE9FFE1E982E930024DD88 /* ZXBitMatrix.swift */; };
+		E9D180B51F2A9060002585C2 /* ZXBitArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D180B41F2A9060002585C2 /* ZXBitArray.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E929AFA91E983F72007E166E /* ZXOneDimensionalCodeWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZXOneDimensionalCodeWriter.swift; path = OneDimensional/ZXOneDimensionalCodeWriter.swift; sourceTree = "<group>"; };
 		E929AFAB1E98496E007E166E /* ZXCodabarWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZXCodabarWriter.swift; path = OneDimensional/ZXCodabarWriter.swift; sourceTree = "<group>"; };
 		E987C9D81E9BCA35006CC936 /* ZXCodabarReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZXCodabarReader.swift; path = OneDimensional/ZXCodabarReader.swift; sourceTree = "<group>"; };
+		E9AA31B51F1FAB88001550EB /* ZXGenericGF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZXGenericGF.swift; path = Common/ReedSolomon/ZXGenericGF.swift; sourceTree = "<group>"; };
+		E9AA31B71F1FAD77001550EB /* ZXGenericGFPoly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZXGenericGFPoly.swift; path = Common/ReedSolomon/ZXGenericGFPoly.swift; sourceTree = "<group>"; };
+		E9AA31BB1F1FF5B1001550EB /* ZXReedSolomonEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZXReedSolomonEncoder.swift; path = Common/ReedSolomon/ZXReedSolomonEncoder.swift; sourceTree = "<group>"; };
+		E9AA31BD1F200038001550EB /* ZXCharacterSetECI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZXCharacterSetECI.swift; path = Common/ZXCharacterSetECI.swift; sourceTree = "<group>"; };
 		E9CE9FE51E9818410024DD88 /* ZXingSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZXingSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9CE9FE81E9818410024DD88 /* ZXingSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXingSwift.h; sourceTree = "<group>"; };
 		E9CE9FE91E9818410024DD88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -32,6 +41,7 @@
 		E9CE9FF61E981E590024DD88 /* ZXEncodeHintType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZXEncodeHintType.swift; sourceTree = "<group>"; };
 		E9CE9FF81E9824820024DD88 /* ZXMultiFormatWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZXMultiFormatWriter.swift; sourceTree = "<group>"; };
 		E9CE9FFE1E982E930024DD88 /* ZXBitMatrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZXBitMatrix.swift; path = Common/ZXBitMatrix.swift; sourceTree = "<group>"; };
+		E9D180B41F2A9060002585C2 /* ZXBitArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZXBitArray.swift; path = Common/ZXBitArray.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +63,16 @@
 				E987C9D81E9BCA35006CC936 /* ZXCodabarReader.swift */,
 			);
 			name = OneDimensional;
+			sourceTree = "<group>";
+		};
+		E9AA31B41F1FAA63001550EB /* ReedSolomon */ = {
+			isa = PBXGroup;
+			children = (
+				E9AA31B51F1FAB88001550EB /* ZXGenericGF.swift */,
+				E9AA31B71F1FAD77001550EB /* ZXGenericGFPoly.swift */,
+				E9AA31BB1F1FF5B1001550EB /* ZXReedSolomonEncoder.swift */,
+			);
+			name = ReedSolomon;
 			sourceTree = "<group>";
 		};
 		E9CE9FDB1E9818410024DD88 = {
@@ -87,6 +107,9 @@
 			isa = PBXGroup;
 			children = (
 				E9CE9FFE1E982E930024DD88 /* ZXBitMatrix.swift */,
+				E9D180B41F2A9060002585C2 /* ZXBitArray.swift */,
+				E9AA31BD1F200038001550EB /* ZXCharacterSetECI.swift */,
+				E9AA31B41F1FAA63001550EB /* ReedSolomon */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -185,13 +208,18 @@
 			files = (
 				E9CE9FFF1E982E930024DD88 /* ZXBitMatrix.swift in Sources */,
 				E9CE9FF91E9824820024DD88 /* ZXMultiFormatWriter.swift in Sources */,
+				E9AA31BE1F200038001550EB /* ZXCharacterSetECI.swift in Sources */,
 				E929AFAA1E983F72007E166E /* ZXOneDimensionalCodeWriter.swift in Sources */,
 				E929AFAC1E98496E007E166E /* ZXCodabarWriter.swift in Sources */,
+				E9AA31B61F1FAB88001550EB /* ZXGenericGF.swift in Sources */,
+				E9AA31BC1F1FF5B1001550EB /* ZXReedSolomonEncoder.swift in Sources */,
 				E9CE9FF31E981BA00024DD88 /* ZXError.swift in Sources */,
 				E9CE9FF51E981C990024DD88 /* ZXBarcodeFormat.swift in Sources */,
 				E9CE9FF71E981E590024DD88 /* ZXEncodeHintType.swift in Sources */,
+				E9AA31B81F1FAD77001550EB /* ZXGenericGFPoly.swift in Sources */,
 				E9CE9FF11E9818840024DD88 /* ZXWriter.swift in Sources */,
 				E987C9D91E9BCA35006CC936 /* ZXCodabarReader.swift in Sources */,
+				E9D180B51F2A9060002585C2 /* ZXBitArray.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

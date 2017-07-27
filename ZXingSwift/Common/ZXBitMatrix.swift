@@ -13,6 +13,8 @@ import Foundation
 /** Represents a 2D matrix of bits */
 public final class ZXBitMatrix : NSObject {
 	
+	private static let EmptySlice = ArraySlice<Bool>();
+	
 	public private (set) var width: Int = 1;
 	public private (set) var height: Int = 1;
 	
@@ -36,6 +38,10 @@ public final class ZXBitMatrix : NSObject {
 		super.init();
 	}
 	
+	public var size : Int {
+		return bits.count;
+	}
+	
 	public func getValues<T> (transform: (Bool) throws -> T) rethrows -> [T] {
 		return try bits.map (transform);
 	}
@@ -50,14 +56,32 @@ public final class ZXBitMatrix : NSObject {
 		return bits [index];
 	}
 	
-	public func rowValues (row: Int, callback: (Int, ArraySlice<Bool>) -> Void) {
-		if ((row < 0) || (row >= height)) { return; }
+	/** 
+	 - Returns: The bit at the requested index, where True = Black/On. 
+	 This variant is useful for formats that require a continuous bit stream.
+	 */
+	public func value (index: Int) -> Bool {
+		return bits [index];
+	}
+	
+	public func rowValues (row: Int) -> (row: Int, bits: ArraySlice<Bool>) {
+		if ((row < 0) || (row >= height)) {
+			return (row, ZXBitMatrix.EmptySlice);
+		}
 		
 		let start = (row * rowSpan);
 		let end = start + rowSpan;
 		
-		let result = bits [start..<end];
-		callback (row, result);
+		return (row, bits [start..<end]);
+	}
+	
+	public func coordinates (index: Int) -> (row: Int, column: Int)? {
+		if ((index < 0) || (index >= bits.count)) { return nil; }
+		
+		let row : Int = index / rowSpan;
+		let column : Int = row % rowSpan;
+		
+		return (row: row, column: column);
 	}
 	
 	/** Sets the bit value at the given position, where True = Black/On */
@@ -102,21 +126,45 @@ public final class ZXBitMatrix : NSObject {
 		}
 	}
 	
+	/** Looks for top-left Black/On/True bit, used in detecting corners of "pure" 2D barcodes. */
+	public func findTopLeftOnBit() -> (row: Int, column: Int)? {
+		var bitsOffset : Int = -1;
+		
+		for (idx, bitValue) in bits.enumerated() {
+			if (bitValue) {
+				bitsOffset = idx;
+				break;
+			}
+		}
+		
+		if (bitsOffset < 0) { return nil; }
+		
+		return coordinates (index: bitsOffset);
+	}
+	
+	/** Looks for bottom-right Black/On/True bit, used in detecting corners of "pure" 2D barcodes. */
+	public func findBottomRightOnBit() -> (row: Int, column: Int)? {
+		var bitsOffset : Int = -1;
+		
+		for (idx, bitValue) in bits.enumerated().reversed() {
+			if (bitValue) {
+				bitsOffset = idx;
+				break;
+			}
+		}
+		
+		if (bitsOffset < 0) { return nil; }
+		
+		return coordinates (index: bitsOffset);
+	}
+	
 	public override var debugDescription: String {
 		var result : String = "";
 		
-		let onRowReceived = {(rowIndex: Int, rowBits: ArraySlice<Bool>) -> Void in 
-			var curr_row : String = ((rowIndex > 0) ? "\r\n" : "");
+		for (idx, curr_bit) in bits.enumerated() {
+			if (idx % rowSpan == 0) { result.append ("\r\n"); }
 			
-			rowBits.forEach ({
-				curr_row.append ($0 ? "1 " : "0 ");
-			});
-			
-			result.append (curr_row);
-		}
-		
-		for row in 0..<height {
-			rowValues (row: row, callback: onRowReceived);
+			result.append (curr_bit ? "1 " : "0 ");
 		}
 		
 		return result;
