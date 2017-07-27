@@ -42,17 +42,8 @@ public class ZXOneDimensionalCodeWriter : NSObject, ZXWriter {
 			throw ZXWriterError.Unspecified ("Negative width or height are not allowed");
 		}
 		
-		var sideMargin = ZXOneDimensionalCodeWriter.DefaultMargin;
-		hints?.forEach ({
-			switch ($0) {
-			case .Margin (let margin):
-				sideMargin = margin;
-				break;
-				
-			default:
-				break;
-			}
-		});
+		let sideMargin : Int = options?.margin ?? 
+			ZXOneDimensionalCodeWriter.DefaultMargin;
 		
 		let rawBarcode = try encode (contents: contents);
 		return render (barcode: rawBarcode, width: width, height: height, margin: sideMargin);
