@@ -16,7 +16,7 @@ public final class ZXMultiFormatWriter : NSObject {
 	public static func encode (contents: String, 
 		format: ZXBarcodeFormat, 
 		width: Int, height: Int, 
-		options: [ZXEncodeHintType]? = nil
+		options: ZXEncodingHints? = nil
 		) throws -> ZXBitMatrix {
 		
 		var writer : ZXWriter? = nil;

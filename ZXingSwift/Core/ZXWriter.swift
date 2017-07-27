@@ -30,7 +30,7 @@ protocol ZXWriter {
 	             format: ZXBarcodeFormat, 
 	             width: Int, 
 	             height: Int, 
-	             options hints: [ZXEncodeHintType]?
+	             options hints: ZXEncodingHints?
 		) throws -> ZXBitMatrix;
 }
 

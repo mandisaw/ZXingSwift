@@ -32,7 +32,7 @@ public class ZXOneDimensionalCodeWriter : NSObject, ZXWriter {
 	func encode (contents: String, 
 		format: ZXBarcodeFormat, 
 		width: Int, height: Int, 
-		options hints: [ZXEncodeHintType]?) throws -> ZXBitMatrix {
+		options: ZXEncodingHints?) throws -> ZXBitMatrix {
 		
 		if (contents.isEmpty) {
 			throw ZXWriterError.Unspecified ("Empty contents found!");

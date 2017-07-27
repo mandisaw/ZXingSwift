@@ -1,5 +1,5 @@
 //
-//  ZXEncodeHintType.swift
+//  ZXEncodingHints.swift
 //  ZXingSwift
 //
 //  Created by Mandisa Washington on 4/7/17.
@@ -11,7 +11,11 @@
 import Foundation
 
 /** Optional encoding hints to be passed to Writers */
-public enum ZXEncodeHintType {
+public class ZXEncodingHints : NSObject {
+	
+	public override init() {
+		super.init();
+	}
 	
 	/** Specifies what degree of error correction to use, in formats that support it, for example, QR Code.
 	 Type of correction is encoder-dependent. Most encoders support String type-specification, with additional
@@ -20,38 +24,38 @@ public enum ZXEncodeHintType {
 	 - Aztec: Use Integer, representing the minimal percentage of error-correction words (minimum 25% EC words)
 	 - PDF417: Use Integer, valid values in the range 0-8
 	 */
-	case ErrorCorrection (Any);
+	var errorCorrection : Any? = nil;
 	
 	/** Specifies character encoding to use, where applicable. */
-	case CharacterSet (String.Encoding);
+	var characterEncoding : String.Encoding? = nil;
 	
 	/** DataMatrix-only: Specifies the matrix shape to use */
-//	case DataMatrixShape (DataMatrix.SymbolShapeHint);
+//	var dataMatrixShape : DataMatrix.SymbolShapeHint? = nil;
 	
 	/** DataMatrix-only: Specifies a maximum barcode size to use */
-	case DataMatrixMaxSize (CGSize);
+	var dataMatrixMaxSize : CGSize? = nil;
 	
 	/** Specifies margin, in pixels, to use when generating a barcode. The meaning is encoder-dependent.
 	 - 1D formats: Typically interpreted as left/right margin
 	*/
-	case Margin (Int);
+	var margin : Int? = nil;
 	
 	/** PDF 417-only: Flag specifying use of Compact Mode */
-	case PDF417_UseCompactMode (Bool);
+	var PDF417_useCompactMode : Bool? = nil;
 	
 	/** PDF 417-only: Specifies type of compaction mode to use */
-//	case PDF417_CompactionMode (PDF417.Compaction);
+//	var PDF417_compactionMode : PDF417.Compaction? = nil;
 	
 	/** PDF 417-only: Specifies the minimum and maximum number of rows and columns */
-//	case PDF417_Dimensions (PDF417.Dimensions);
+//	var PDF417_dimensions : PDF417.Dimensions? = nil;
 	
 	/** Aztec-only: Specifies the required number of layers.
 	 - Negative: Use a compact Aztec code.
 	 - 0 (default): Use the minimum number of layers
 	 - Positive: Use a normal (not compact) Aztec code.
 	 */
-	case AztecLayers (Int);
+	var aztecLayers : Int? = nil;
 	
 	/** QR Code-only: Specifies the version of QR Code to be encoded */
-	case QR_Version (Int);
+	var qrVersion : Int? = nil;
 }
