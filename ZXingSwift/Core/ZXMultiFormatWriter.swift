@@ -62,10 +62,6 @@ public final class ZXMultiFormatWriter : NSObject {
 			writer = ZXPDF417Writer();
 			break;
 			
-		case .QR_Code:
-			writer = ZXQRCodeWriter();
-			break;
-			
 		case .RSS14:
 			writer = ZXRSS14Writer();
 			break;
@@ -82,6 +78,10 @@ public final class ZXMultiFormatWriter : NSObject {
 			writer = ZXUPCEWriter();
 			break;
 */			
+		case .QR_Code:
+			writer = ZXQRCodeWriter();
+			break;
+			
 		case .Codabar:
 			writer = ZXCodabarWriter();
 			break;

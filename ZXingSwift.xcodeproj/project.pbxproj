@@ -11,6 +11,7 @@
 		E929AFAC1E98496E007E166E /* ZXCodabarWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E929AFAB1E98496E007E166E /* ZXCodabarWriter.swift */; };
 		E9345D711F20E93C0045709A /* ZXFormatInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9345D701F20E93C0045709A /* ZXFormatInformation.swift */; };
 		E9345D731F2106270045709A /* ZXVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9345D721F2106270045709A /* ZXVersion.swift */; };
+		E95F087E1F325B2600295108 /* ZXQRCodeWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95F087D1F325B2600295108 /* ZXQRCodeWriter.swift */; };
 		E97165571F28E3C100268892 /* ZXMatrixUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97165561F28E3C100268892 /* ZXMatrixUtils.swift */; };
 		E97165591F29114C00268892 /* IntegerUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97165581F29114C00268892 /* IntegerUtils.swift */; };
 		E9864B2C1F27CAC60095E9B3 /* ZXBlockPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9864B2B1F27CAC60095E9B3 /* ZXBlockPair.swift */; };
@@ -42,6 +43,7 @@
 		E929AFAB1E98496E007E166E /* ZXCodabarWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZXCodabarWriter.swift; path = OneDimensional/ZXCodabarWriter.swift; sourceTree = "<group>"; };
 		E9345D701F20E93C0045709A /* ZXFormatInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZXFormatInformation.swift; path = QRCode/Decoder/ZXFormatInformation.swift; sourceTree = "<group>"; };
 		E9345D721F2106270045709A /* ZXVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZXVersion.swift; path = QRCode/Decoder/ZXVersion.swift; sourceTree = "<group>"; };
+		E95F087D1F325B2600295108 /* ZXQRCodeWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZXQRCodeWriter.swift; path = QRCode/ZXQRCodeWriter.swift; sourceTree = "<group>"; };
 		E97165561F28E3C100268892 /* ZXMatrixUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZXMatrixUtils.swift; path = QRCode/Encoder/ZXMatrixUtils.swift; sourceTree = "<group>"; };
 		E97165581F29114C00268892 /* IntegerUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegerUtils.swift; sourceTree = "<group>"; };
 		E9864B2B1F27CAC60095E9B3 /* ZXBlockPair.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZXBlockPair.swift; path = QRCode/Encoder/ZXBlockPair.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 			children = (
 				E9AA31C01F200D4B001550EB /* Decoder */,
 				E9AA31C11F200D57001550EB /* Encoder */,
+				E95F087D1F325B2600295108 /* ZXQRCodeWriter.swift */,
 			);
 			name = QRCode;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 				E929AFAC1E98496E007E166E /* ZXCodabarWriter.swift in Sources */,
 				E9D180B31F2A736B002585C2 /* TextUtils.swift in Sources */,
 				E9864B301F27D3A70095E9B3 /* ZXQRCode.swift in Sources */,
+				E95F087E1F325B2600295108 /* ZXQRCodeWriter.swift in Sources */,
 				E9AA31B61F1FAB88001550EB /* ZXGenericGF.swift in Sources */,
 				E9AA31BC1F1FF5B1001550EB /* ZXReedSolomonEncoder.swift in Sources */,
 				E9CE9FF31E981BA00024DD88 /* ZXError.swift in Sources */,
