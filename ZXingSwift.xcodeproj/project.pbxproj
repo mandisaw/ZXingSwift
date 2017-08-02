@@ -32,6 +32,7 @@
 		E9CE9FF71E981E590024DD88 /* ZXEncodingHints.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CE9FF61E981E590024DD88 /* ZXEncodingHints.swift */; };
 		E9CE9FF91E9824820024DD88 /* ZXMultiFormatWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CE9FF81E9824820024DD88 /* ZXMultiFormatWriter.swift */; };
 		E9CE9FFF1E982E930024DD88 /* ZXBitMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CE9FFE1E982E930024DD88 /* ZXBitMatrix.swift */; };
+		E9D180B11F2A6804002585C2 /* ZXEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D180B01F2A6804002585C2 /* ZXEncoder.swift */; };
 		E9D180B31F2A736B002585C2 /* TextUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D180B21F2A736B002585C2 /* TextUtils.swift */; };
 		E9D180B51F2A9060002585C2 /* ZXBitArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D180B41F2A9060002585C2 /* ZXBitArray.swift */; };
 /* End PBXBuildFile section */
@@ -64,6 +65,7 @@
 		E9CE9FF61E981E590024DD88 /* ZXEncodingHints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZXEncodingHints.swift; sourceTree = "<group>"; };
 		E9CE9FF81E9824820024DD88 /* ZXMultiFormatWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZXMultiFormatWriter.swift; sourceTree = "<group>"; };
 		E9CE9FFE1E982E930024DD88 /* ZXBitMatrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZXBitMatrix.swift; path = Common/ZXBitMatrix.swift; sourceTree = "<group>"; };
+		E9D180B01F2A6804002585C2 /* ZXEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZXEncoder.swift; path = QRCode/Encoder/ZXEncoder.swift; sourceTree = "<group>"; };
 		E9D180B21F2A736B002585C2 /* TextUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextUtils.swift; sourceTree = "<group>"; };
 		E9D180B41F2A9060002585C2 /* ZXBitArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZXBitArray.swift; path = Common/ZXBitArray.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -127,6 +129,7 @@
 				E9864B2F1F27D3A70095E9B3 /* ZXQRCode.swift */,
 				E9864B311F27D5E30095E9B3 /* ZXMaskUtils.swift */,
 				E97165561F28E3C100268892 /* ZXMatrixUtils.swift */,
+				E9D180B01F2A6804002585C2 /* ZXEncoder.swift */,
 			);
 			name = Encoder;
 			sourceTree = "<group>";
@@ -272,6 +275,7 @@
 				E9864B321F27D5E30095E9B3 /* ZXMaskUtils.swift in Sources */,
 				E9AA31BE1F200038001550EB /* ZXCharacterSetECI.swift in Sources */,
 				E9AA31C31F200D8F001550EB /* ZXErrorCorrectionLevel.swift in Sources */,
+				E9D180B11F2A6804002585C2 /* ZXEncoder.swift in Sources */,
 				E929AFAA1E983F72007E166E /* ZXOneDimensionalCodeWriter.swift in Sources */,
 				E9345D731F2106270045709A /* ZXVersion.swift in Sources */,
 				E929AFAC1E98496E007E166E /* ZXCodabarWriter.swift in Sources */,
