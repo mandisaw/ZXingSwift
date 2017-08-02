@@ -24,8 +24,17 @@ extension ZXByteMatrix {
 		return (8, height - 8);
 	}
 	
+	init? (data: ZXBitArray, 
+		errorCorrectionLevel ecLevel: ZXErrorCorrectionLevel, 
+		version: ZXVersion, 
+		maskPattern: Int) throws {
+		
+		self.init (version: version);
+		try self.build (data: data, errorCorrectionLevel: ecLevel, version: version, maskPattern: maskPattern);
+	}
+	
 	/** Builds QR Code 2D matrix out of given parameters */
-	mutating func build (data: ZXBitMatrix, 
+	mutating func build (data: ZXBitArray, 
 		errorCorrectionLevel ecLevel: ZXErrorCorrectionLevel, 
 		version: ZXVersion, 
 		maskPattern: Int) throws {
@@ -42,6 +51,32 @@ extension ZXByteMatrix {
 		try encodeVersionInformation (version: version);
 		
 		try encodeData (data: data, maskPattern: maskPattern);
+	}
+	
+	/** Recursively checks each mask pattern for a best-fit case for the given parameters. */
+	static func lookupMaskPattern (ecData: ZXBitArray, 
+		errorCorrectionLevel ecLevel: ZXErrorCorrectionLevel, version: ZXVersion) throws -> Int {
+		
+		var matrix : ZXByteMatrix = ZXByteMatrix (version: version);
+		
+		let MaskPatternsCount = ZXQRCode.MaskPatternsCount;
+		
+		var minPenalty : Int = Int.max;
+		var curr_penalty : Int;
+		var result : Int = ZXQRCode.InvalidMaskPattern;
+		
+		for testPattern in 0..<MaskPatternsCount {
+			try matrix.build (data: ecData, errorCorrectionLevel: ecLevel, version: version, maskPattern: testPattern);
+			
+			curr_penalty = ZXMaskUtils.calculateMaskPenalty (matrix);
+			
+			if (curr_penalty < minPenalty) {
+				minPenalty = curr_penalty;
+				result = testPattern;
+			}
+		}
+		
+		return result;
 	}
 	
 	/** Encodes Finder Patterns, including separators.
@@ -224,7 +259,7 @@ extension ZXByteMatrix {
 	
 	 Refer to QR Code specification, ISO 18004:2006, section 6.7.3  
 	 (or original standard JIS X0510:2004, section 8.7) for Symbol Character placement details. */
-	private mutating func encodeData (data: ZXBitMatrix, maskPattern: Int, 
+	private mutating func encodeData (data: ZXBitArray, maskPattern: Int, 
 		shouldSkipMasking: Bool = false) throws {
 		
 		let colRange = 0..<width;
@@ -236,7 +271,7 @@ extension ZXByteMatrix {
 		
 		var scanDirection : Bool = true;
 		
-		let dataBitCount : Int = data.size;
+		let dataBitCount : Int = data.count;
 		var dataBitIndex : Int = 0;
 		var dataBit : Bool;
 		
@@ -254,7 +289,7 @@ extension ZXByteMatrix {
 					}
 					
 					if (dataBitIndex < dataBitCount) {
-						dataBit = data.value (index: dataBitIndex);
+						dataBit = data [dataBitIndex];
 						dataBitIndex += 1;
 					} else {
 						// If no data remains, we pad with False/Zero/Off, as described in the spec

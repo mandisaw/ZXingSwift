@@ -84,18 +84,49 @@ public enum ZXMode : Int, CustomDebugStringConvertible {
 	}
 	
 	func characterCountBits (version: ZXVersion) -> Int {
-		let number : Int = version.versionNumber;
-		let offset : Int;
+		let versionNumber = version.versionNumber;
+		let index : Int;
 		
-		if (number <= 9) {
-			offset = 0;
-		} else if (number <= 26) {
-			offset = 1;
+		if (versionNumber <= 9) {
+			index = 0;
+		} else if (versionNumber <= 26) {
+			index = 1;
 		} else {
-			offset = 2;
+			index = 2;
 		}
 		
-		return CharacterCountBits [offset];
+		return CharacterCountBits [index];
+	}
+	
+	/** Calculates the number of "characters" to be encoded, in a Mode-specific context.
+	 Note that in Byte mode, at least one of encoded data block or desired content encoding must be specified. */
+	func calculateCharacterCount (content: String, data: ZXBitArray? = nil, encoding: String.Encoding? = nil) throws -> Int {
+		switch (self) {
+		case .Byte:
+			if let data = data {
+				return (data.count + 7) / 8;
+				
+			} else if let encoding = encoding ?? ZXCharacterSetECI.defaultCharacterSet.encoding {
+				return content.lengthOfBytes (using: encoding);
+			
+			} else {
+				throw ZXWriterError.IllegalArgument (
+					"In Byte mode, character count requires either data block or content encoding");
+			}
+			
+		default:
+			// TODO 8/1/2017: Confirm that this gives the correct count, as opposed to needing individual Unicode code points
+			return content.characters.count;
+		}
+	}
+	
+	func willSupportEncoding (version: ZXVersion, content: String, 
+		data: ZXBitArray? = nil, encoding: String.Encoding? = nil) throws -> Bool {
+		
+		let contentLength : Int = try calculateCharacterCount (content: content, data: data, encoding: encoding);
+		let maxBitsCount : Int = characterCountBits (version: version);
+		
+		return (contentLength.bitWidth <= maxBitsCount);
 	}
 	
 	private static let NumericSupportedCharacterSet : CharacterSet = CharacterSet (charactersIn: "0"..."9");

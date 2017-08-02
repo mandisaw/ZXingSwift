@@ -175,6 +175,99 @@ public final class ZXVersion : NSObject {
 		return bitMatrix;
 	}
 	
+	func maxDataBytesSupported (errorCorrectionLevel ecLevel: ZXErrorCorrectionLevel) -> Int {
+		let numECBytes = errorCorrectionBlocks (ecLevel: ecLevel).totalECCodewords;
+		return totalCodewords - numECBytes;
+	}
+	
+	func maxDataBitsSupported (errorCorrectionLevel ecLevel: ZXErrorCorrectionLevel) -> Int {
+		return maxDataBytesSupported (errorCorrectionLevel: ecLevel) * 8;
+	}
+	
+	/** - Return: True, if this version supports encoding the given content, using this mode and error correction level */
+	func willSupportEncoding (mode: ZXMode, errorCorrectionLevel ecLevel: ZXErrorCorrectionLevel, 
+		header: ZXBitArray, data: ZXBitArray) -> Bool {
+		
+		let numBitsNeeded = mode.characterCountBits (version: self) + header.count + data.count;
+		return (numBitsNeeded + 7) <= maxDataBitsSupported (errorCorrectionLevel: ecLevel);
+	}
+	
+	/** Searches for the lowest version (smallest size, in modules) of QR Code 
+	 that can support encoding the given content, using this mode and error correction level.
+	 - parameters:
+	   - requestedVersion:		If provided, search will begin at the requested version
+	
+	 - returns: Nil, if no suitable version could be found with the given parameters
+	*/
+	static func lookupSupportedVersion (requestedVersion: ZXVersion? = nil, 
+		mode: ZXMode, errorCorrectionLevel ecLevel: ZXErrorCorrectionLevel, 
+		header: ZXBitArray, data: ZXBitArray) -> ZXVersion? {
+		
+		let minVersionNumber : Int = requestedVersion?.versionNumber ?? 0;
+		
+		return Versions.suffix (from: minVersionNumber).first (where: {
+			return $0.willSupportEncoding (mode: mode, errorCorrectionLevel: ecLevel, 
+				header: header, data: data);
+		});
+	}
+	
+	/** Generates error-correction capacity information for the given block ID and error-correction level.
+	 Refer to QR Code specification, ISO 18004:2006, section 6.5.1, Table 9 for details on bit stream error correction */
+	func getErrorCorrectionCapacity (blockId: Int, 
+		errorCorrectionLevel ecLevel: ZXErrorCorrectionLevel) 
+		throws -> (dataBytesCapacity: Int, ecBytesCapacity: Int) {
+		
+		let numTotalBytes = totalCodewords;
+		let numDataBytes = maxDataBytesSupported (errorCorrectionLevel: ecLevel);
+		let numReedSolomonBlocks = errorCorrectionBlocks (ecLevel: ecLevel).totalBlockCount;
+		
+		if ((blockId < 0) || (blockId >= numReedSolomonBlocks)) {
+			throw ZXWriterError.IllegalArgument (
+				"Error generating error-correction: Block ID out of bounds");
+		}
+		
+		// Two parallel attempts at generating capacity info are made, and then the results selected based on block ID
+		let numRSBlocks_group2 = numTotalBytes % numReedSolomonBlocks;
+		let numRSBlocks_group1 = numReedSolomonBlocks - numRSBlocks_group2;
+		
+		let numTotalBytes_group1 = numTotalBytes / numReedSolomonBlocks;
+		let numTotalBytes_group2 = numTotalBytes_group1 + 1;
+		
+		let numDataBytes_group1 = numDataBytes / numReedSolomonBlocks;
+		let numDataBytes_group2 = numDataBytes_group1 + 1;
+		
+		let numECBytes_group1 = numTotalBytes_group1 - numDataBytes_group1;
+		let numECBytes_group2 = numTotalBytes_group2 - numDataBytes_group2;
+		
+		// Perform sanity checks
+		if (numECBytes_group1 != numECBytes_group2) {
+			throw ZXWriterError.Unspecified (
+				"Error generating error-correction: Mismatched error-correction bytes \(numECBytes_group1) vs \(numECBytes_group2)");
+		}
+		
+		if (numReedSolomonBlocks != numRSBlocks_group1 + numRSBlocks_group2) {
+			throw ZXWriterError.Unspecified (
+				"Error generating error-correction: Mismatched Reed-Solomon blocks \(numRSBlocks_group1) vs \(numRSBlocks_group2)");
+		}
+		
+		let calculatedTotalBytes = 
+			((numDataBytes_group1 + numECBytes_group1) * numRSBlocks_group1) + 
+				((numDataBytes_group2 + numECBytes_group2) * numRSBlocks_group2);
+		
+		if (numTotalBytes != calculatedTotalBytes) {
+			throw ZXWriterError.Unspecified (
+				"Error generating error-correction: Mismatched total bytes \(calculatedTotalBytes) vs \(numTotalBytes)");
+		}
+		
+		if (blockId < numRSBlocks_group1) {
+			return (numDataBytes_group1, numECBytes_group1);
+		} else {
+			return (numDataBytes_group2, numECBytes_group2);
+		}
+	}
+	
+	// MARK: Helpers
+	
 	/** Encapsulates the parameters for one error-correction block in one symbol version.
 	 
 	 This includes the number of data codewords, and the number of times a block with these parameters 

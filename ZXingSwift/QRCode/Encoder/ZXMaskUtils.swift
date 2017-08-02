@@ -24,6 +24,13 @@ public final class ZXMaskUtils : NSObject {
 		super.init();
 	}
 	
+	static let calculateMaskPenalty = {(matrix: ZXByteMatrix) in 
+		return PenaltyRule1 (matrix) + 
+			PenaltyRule2 (matrix) + 
+			PenaltyRule3 (matrix) + 
+			PenaltyRule4 (matrix);
+	};
+	
 	/** Mask Penalty Rule 1: Find repetitive cells with the same color/value, in either horizontal or vertical orientation, 
 	 and assign a penalty/weight to them. */
 	static let PenaltyRule1 = {(matrix: ZXByteMatrix) -> Int in 

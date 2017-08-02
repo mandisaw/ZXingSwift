@@ -34,6 +34,11 @@ public struct ZXByteMatrix : CustomDebugStringConvertible {
 		self.bytes = tempBytes;
 	}
 	
+	init (version: ZXVersion) {
+		let dimension = version.getDimension();
+		self.init (width: dimension, height: dimension);
+	}
+	
 	var width : Int {
 		return dimensions.width;
 	}

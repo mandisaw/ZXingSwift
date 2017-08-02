@@ -13,6 +13,7 @@ import Foundation
 public final class ZXQRCode : NSObject {
 	
 	static let MaskPatternsCount : Int = 8;
+	static let InvalidMaskPattern : Int = -1;
 	
 	var mode : ZXMode? = nil;
 	var errorCorrectionLevel : ZXErrorCorrectionLevel? = nil;
@@ -22,8 +23,12 @@ public final class ZXQRCode : NSObject {
 	
 	var matrix : ZXByteMatrix? = nil;
 	
-	public override init() {
+	init (mode: ZXMode? = nil, version: ZXVersion? = nil, errorCorrectionLevel ecLevel: ZXErrorCorrectionLevel? = nil) {
 		super.init();
+		
+		self.mode = mode;
+		self.version = version;
+		self.errorCorrectionLevel = ecLevel;
 	}
 	
 	static func isValid (maskPattern: Int) -> Bool {
