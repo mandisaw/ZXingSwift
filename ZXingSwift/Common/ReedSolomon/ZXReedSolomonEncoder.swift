@@ -29,7 +29,7 @@ public final class ZXReedSolomonEncoder : NSObject {
 	
 	var cachedGenerators : [ZXGenericGFPoly] = Array();
 	
-	init (field: ZXGenericGF) {
+	private init (field: ZXGenericGF) {
 		self.field = field;
 		
 		super.init();
@@ -38,7 +38,7 @@ public final class ZXReedSolomonEncoder : NSObject {
 			ZXGenericGFPoly (field: field, coefficients: [1]));
 	}
 	
-	func encode (toEncode target: inout [Int], errorCorrectionBytes ecBytes: Int) throws {
+	static func encode (toEncode target: inout [Int], field: ZXGenericGF, errorCorrectionBytes ecBytes: Int) throws {
 		if (ecBytes == 0) {
 			throw ZXWriterError.IllegalArgument(
 				"No error correction bytes provided!");
@@ -51,7 +51,9 @@ public final class ZXReedSolomonEncoder : NSObject {
 				"No data bytes provided!");
 		}
 		
-		let generator : ZXGenericGFPoly = try buildGenerator (degree: ecBytes);
+		let encoder = ZXReedSolomonEncoder (field: field);
+		
+		let generator : ZXGenericGFPoly = try encoder.buildGenerator (degree: ecBytes);
 		let infoCoeffs : [Int] = Array (target.prefix (dataBytesOffset));
 		
 		var info = ZXGenericGFPoly (field: field, coefficients: infoCoeffs);
