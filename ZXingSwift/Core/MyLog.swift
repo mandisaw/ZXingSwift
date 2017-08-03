@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class MyLog : NSObject {
+internal class MyLog : NSObject {
 	
 	static var logLevel : DebugLevel = DebugLevel.defaultLevel;
 	
@@ -91,7 +91,7 @@ public class MyLog : NSObject {
 	}
 }
 
-enum DebugLevel : Int {
+internal enum DebugLevel : Int {
 	case Verbose = 0;
 	case Informational = 1;
 	case Warning = 2;
@@ -106,7 +106,7 @@ enum DebugLevel : Int {
 }
 
 extension Collection {
-	func asArray() -> [Self.Iterator.Element] {
+	internal func asArray() -> [Self.Iterator.Element] {
 		return (self as? [Self.Iterator.Element]) ?? 
 			self.map ({ return $0; });
 	}

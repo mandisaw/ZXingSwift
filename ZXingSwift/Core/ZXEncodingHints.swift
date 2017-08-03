@@ -24,38 +24,38 @@ public class ZXEncodingHints : NSObject {
 	 - Aztec: Use Integer, representing the minimal percentage of error-correction words (minimum 25% EC words)
 	 - PDF417: Use Integer, valid values in the range 0-8
 	 */
-	var errorCorrection : Any? = nil;
+	public var errorCorrection : Any? = nil;
 	
 	/** Specifies character encoding to use, where applicable. */
-	var characterEncoding : String.Encoding? = nil;
+	public var characterEncoding : String.Encoding? = nil;
 	
 	/** DataMatrix-only: Specifies the matrix shape to use */
-//	var dataMatrixShape : DataMatrix.SymbolShapeHint? = nil;
+//	public var dataMatrixShape : DataMatrix.SymbolShapeHint? = nil;
 	
 	/** DataMatrix-only: Specifies a maximum barcode size to use */
-	var dataMatrixMaxSize : CGSize? = nil;
+	public var dataMatrixMaxSize : CGSize? = nil;
 	
 	/** Specifies margin, in pixels, to use when generating a barcode. The meaning is encoder-dependent.
 	 - 1D formats: Typically interpreted as left/right margin
 	*/
-	var margin : Int? = nil;
+	public var margin : Int? = nil;
 	
 	/** PDF 417-only: Flag specifying use of Compact Mode */
-	var PDF417_useCompactMode : Bool? = nil;
+	public var PDF417_useCompactMode : Bool? = nil;
 	
 	/** PDF 417-only: Specifies type of compaction mode to use */
-//	var PDF417_compactionMode : PDF417.Compaction? = nil;
+//	public var PDF417_compactionMode : PDF417.Compaction? = nil;
 	
 	/** PDF 417-only: Specifies the minimum and maximum number of rows and columns */
-//	var PDF417_dimensions : PDF417.Dimensions? = nil;
+//	public var PDF417_dimensions : PDF417.Dimensions? = nil;
 	
 	/** Aztec-only: Specifies the required number of layers.
 	 - Negative: Use a compact Aztec code.
 	 - 0 (default): Use the minimum number of layers
 	 - Positive: Use a normal (not compact) Aztec code.
 	 */
-	var aztecLayers : Int? = nil;
+	public var aztecLayers : Int? = nil;
 	
 	/** QR Code-only: Specifies the version of QR Code to be encoded */
-	var qrVersion : Int? = nil;
+	public var qrVersion : Int? = nil;
 }

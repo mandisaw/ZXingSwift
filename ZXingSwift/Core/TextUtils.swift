@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class TextUtils : NSObject {
+internal class TextUtils : NSObject {
 	
 	private override init() {
 		super.init();
