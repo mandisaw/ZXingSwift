@@ -13,7 +13,7 @@ import Foundation
 public class ZXQRCodeWriter : NSObject, ZXWriter {
 	
 	static var DefaultErrorCorrectionLevel = ZXErrorCorrectionLevel.L;
-	static var DefaultMargin : Int = 4;
+	static var DefaultMargin : Int = 0;
 	
 	let Black : Bool = true;
 	let White : Bool = false;
@@ -63,29 +63,33 @@ public class ZXQRCodeWriter : NSObject, ZXWriter {
 				"Error rendering barcode: Missing QR Code matrix information, did you forget to encode?");
 		}
 		
-		let sourceSize : (width: Int, height: Int) = (source.width, source.height);
-		let qrSize : (width: Int, height: Int) = (sourceSize.width + (margin * 2), sourceSize.height + (margin * 2));
-		let targetSize : (width: Int, height: Int) = (Swift.max (width, qrSize.width), Swift.max (height, qrSize.height));
+		let inputWidth : Int = source.width;
+		let inputHeight : Int = source.height;
 		
-		let multiple : Int = Swift.min (targetSize.width / qrSize.width, targetSize.height / qrSize.height);
+		let qrWidth : Int = inputWidth + (margin * 2);
+		let qrHeight : Int = inputHeight + (margin * 2);
+		
+		let outputWidth : Int = max (width, qrWidth);
+		let outputHeight : Int = max (height, qrHeight);
+		
+		let multiple : Int = min (outputWidth / qrWidth, outputHeight / qrHeight);
 		
 		/* Padding includes both the quiet zone and the extra white pixels to accommodate the requested dimensions.
 		 If, for example, the source code size is 25 x 25, the resulting QR code will be 33 x 33, including the quiet zone.
 		 If the requested size is 200 x 160, the multiple will be 4, for a QR code of 132 x 132. 
 		 This implementation adds additional padding to go from the raw QR code size of 132 x 132, up to the target size of 200 x 160.
 		*/
-		let leftPadding : Int = (targetSize.width - (sourceSize.width * multiple)) / 2;
-		let topPadding : Int = (targetSize.height - (sourceSize.height * multiple)) / 2;
+		let leftPadding : Int = (outputWidth - (inputWidth * multiple)) / 2;
+		let topPadding : Int = (outputHeight - (inputHeight * multiple)) / 2;
 		
-		let result = ZXBitMatrix (width: targetSize.width, height: targetSize.height, value: White);
-		
-		let inputWidth = sourceSize.width;
-		let inputHeight = sourceSize.height;
+		let result = ZXBitMatrix (width: outputWidth, height: outputHeight, value: White);
 		
 		var outputX : Int = leftPadding;
 		var outputY : Int = topPadding;
 		
 		for inputY in 0..<inputHeight {
+			outputX = leftPadding;
+			
 			for inputX in 0..<inputWidth {
 				if (source.value (column: inputX, row: inputY) == 1) {
 					result.setRegion (value: Black, left: outputX, top: outputY, width: multiple, height: multiple);
