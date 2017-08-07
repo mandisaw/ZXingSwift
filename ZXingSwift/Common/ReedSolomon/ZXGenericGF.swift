@@ -105,8 +105,10 @@ public final class ZXGenericGF : NSObject {
 			return Zero;
 		}
 		
-		return ZXGenericGFPoly (field: self, 
-			coefficients: Array (arrayLiteral: coefficient, 0));
+		var coefficients : [Int] = Array (repeating: 0, count: degree + 1);
+		coefficients [0] = coefficient;
+		
+		return ZXGenericGFPoly (field: self, coefficients: coefficients);
 	}
 	
 	/** Note that addition and subtraction have the same value in GF(size).

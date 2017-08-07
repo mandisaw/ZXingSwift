@@ -51,23 +51,36 @@ public struct ZXGenericGFPoly : CustomDebugStringConvertible {
 		
 		self.field = field;
 		
-		if ((coeffs.count > 1) && (coeffs [0] == 0)) {
-			// Leading term must be non-zero, for anything except the constant monomial '0'
-			let firstTermOffset = coeffs.suffix (from: 1).first (where: {(value) in 
-				(value != 0);
-			});
-			
-			if let offset = firstTermOffset {
-				self.coefficients = Array (coeffs.suffix (from: offset));
-			} else {
-				self.coefficients = ZXGenericGFPoly.ZeroCoefficients;
-			}
+		let coefficientsLength : Int = coeffs.count;
 		
-		} else if (coeffs.isEmpty == false) {
-			self.coefficients = coeffs;
+		if ((coefficientsLength > 1) && (coeffs [0] == 0)) {
+			// Leading term must be non-zero, for anything except the constant polynomial '0'
+			var firstNonZero : Int = 1;
+			var targetCoefficients : [Int];
+			
+			while ((firstNonZero < coefficientsLength) && (coeffs [firstNonZero] == 0)) {
+				firstNonZero += 1;
+			}
+			
+			if (firstNonZero == coefficientsLength) {
+				targetCoefficients = Array (ZXGenericGFPoly.ZeroCoefficients);
+				
+			} else {
+				targetCoefficients = Array (repeating: 0, count: coefficientsLength - firstNonZero);
+				var coeffIdx : Int = 0;
+				
+				for curr_coefficient in coeffs.suffix (from: firstNonZero) {
+					if (coeffIdx >= targetCoefficients.count) { break; }
+					
+					targetCoefficients [coeffIdx] = curr_coefficient;
+					coeffIdx += 1;
+				}
+			}
+			
+			self.coefficients = targetCoefficients;
 			
 		} else {
-			self.coefficients = ZXGenericGFPoly.ZeroCoefficients;
+			self.coefficients = coeffs;
 		}
 	}
 	
@@ -210,9 +223,12 @@ public struct ZXGenericGFPoly : CustomDebugStringConvertible {
 			return field.Zero;
 		}
 		
-		let newCoefficients = coefficients.map ({
-			field.multiply ($0, coefficient);
-		});
+		let size = self.coefficients.count;
+		var newCoefficients : [Int] = Array (repeating: 0, count: size + degree);
+		
+		for idx in 0..<size {
+			newCoefficients [idx] = field.multiply (coefficients [idx], coefficient);
+		}
 		
 		return ZXGenericGFPoly (field: self.field, coefficients: newCoefficients);
 	}

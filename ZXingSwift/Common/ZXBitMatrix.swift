@@ -94,30 +94,30 @@ public final class ZXBitMatrix : NSObject {
 	
 	/** Convenience method for setting values for a set of positions, where True = Black/On */
 	public func setRegion (value newValue: Bool, minX: Int, maxX: Int, minY: Int, maxY: Int) {
-		if ((minX < 0) || (minY < 0)) { return; }
-		
-		let regionWidth : Int = maxX - minX;
-		let regionHeight : Int = maxY - minY;
-		
-		if ((regionWidth <= 0) || (regionHeight <= 0)) { return; }
-		if ((regionWidth > self.width) || (regionHeight > self.height)) { return; }
-		
-		var index : Int;
-		var rowOffset : Int;
-		
-		for row in minY..<maxY {
-			rowOffset = (row * rowSpan);
-			
-			for column in minX..<maxX {
-				index = rowOffset + column;
-				bits [index] = newValue;
-			}
-		}
+		setRegion (value: newValue, left: minX, top: minY, width: maxX - minX, height: maxY - minY);
 	}
 	
 	/** Convenience method for setting values for a set of positions, where True = Black/On */
 	public func setRegion (value newValue: Bool, left: Int, top: Int, width regionWidth: Int, height regionHeight: Int) {
-		setRegion (value: newValue, minX: left, maxX: left + regionWidth, minY: top, maxY: top + regionHeight);
+		if ((left < 0) || (top < 0)) { return; }
+		if ((regionWidth < 1) || (regionHeight < 1)) { return; }
+		
+		let right = left + regionWidth;
+		let bottom = top + regionHeight;
+		
+		if ((right > self.width) || (bottom > self.height)) { return; }
+		
+		var index : Int;
+		var rowOffset : Int;
+		
+		for row in top..<bottom {
+			rowOffset = (row * rowSpan);
+			
+			for column in left..<right {
+				index = rowOffset + column;
+				bits [index] = newValue;
+			}
+		}
 	}
 	
 	public func reset (value newValue: Bool = false) {
