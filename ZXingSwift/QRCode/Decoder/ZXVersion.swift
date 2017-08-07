@@ -22,10 +22,10 @@ public final class ZXVersion : NSObject {
 	let versionNumber : Int;
 	let alignmentPatternCenters : [Int];
 	
-	let errorCorrectionBlocks : [ECBlocks];
+	let errorCorrectionBlocks : [ZXErrorCorrectionLevel : ECBlocks];
 	let totalCodewords : Int;
 	
-	private init (versionNumber: Int, alignmentCenters: [Int], _ ecBlocks: ECBlocks...) {
+	private init (versionNumber: Int, alignmentCenters: [Int], _ ecBlocks: [ZXErrorCorrectionLevel : ECBlocks]) {
 		self.versionNumber = versionNumber;
 		self.alignmentPatternCenters = alignmentCenters;
 		self.errorCorrectionBlocks = ecBlocks;
@@ -33,9 +33,9 @@ public final class ZXVersion : NSObject {
 		var tempTotalCodewords = 0;
 		
 		if let firstBlock = ecBlocks.first {
-			let ecCodewordsPerBlock = firstBlock.ecCodewordsPerBlock;
+			let ecCodewordsPerBlock = firstBlock.value.ecCodewordsPerBlock;
 			
-			for curr_block in firstBlock.ecBlocks {
+			for curr_block in firstBlock.value.ecBlocks {
 				tempTotalCodewords += (curr_block.blockCount * 
 					(curr_block.dataCodewords + ecCodewordsPerBlock));
 			};
@@ -61,7 +61,7 @@ public final class ZXVersion : NSObject {
 	}
 	
 	func errorCorrectionBlocks (ecLevel: ZXErrorCorrectionLevel) -> ECBlocks {
-		return errorCorrectionBlocks [ecLevel.ordinal];
+		return errorCorrectionBlocks [ecLevel]!;
 	}
 	
 	/** Deduces version information purely from QR Code dimensions
@@ -359,245 +359,245 @@ public final class ZXVersion : NSObject {
 	/** QR Code version information
 	 (Reference: QR Code specification, ISO 18004:2006, 6.5.1, Table 9) */
 	private static let Versions : [ZXVersion] = [
-		ZXVersion (versionNumber: 1, alignmentCenters: [ ], 
-			ECBlocks (wordsPerBlock: 7, blocks: ECB (count: 1, words: 19)),
-			ECBlocks (wordsPerBlock: 10, blocks: ECB (count: 1, words: 16)),
-			ECBlocks (wordsPerBlock: 13, blocks: ECB (count: 1, words: 13)),
-			ECBlocks (wordsPerBlock: 17, blocks: ECB (count: 1, words: 9))
-		),
-		ZXVersion (versionNumber: 2, alignmentCenters: [ 6, 18 ], 
-			ECBlocks (wordsPerBlock: 10, blocks: ECB (count: 1, words: 34)),
-			ECBlocks (wordsPerBlock: 16, blocks: ECB (count: 1, words: 28)),
-			ECBlocks (wordsPerBlock: 22, blocks: ECB (count: 1, words: 22)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 1, words: 16))
-		),
-		ZXVersion (versionNumber: 3, alignmentCenters: [ 6, 22 ], 
-			ECBlocks (wordsPerBlock: 15, blocks: ECB (count: 1, words: 55)),
-			ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 1, words: 44)),
-			ECBlocks (wordsPerBlock: 18, blocks: ECB (count: 2, words: 17)),
-			ECBlocks (wordsPerBlock: 22, blocks: ECB (count: 2, words: 13))
-		),
-		ZXVersion (versionNumber: 4, alignmentCenters: [ 6, 26 ], 
-			ECBlocks (wordsPerBlock: 20, blocks: ECB (count: 1, words: 80)),
-			ECBlocks (wordsPerBlock: 18, blocks: ECB (count: 2, words: 32)),
-			ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 2, words: 24)),
-			ECBlocks (wordsPerBlock: 16, blocks: ECB (count: 4, words: 9))
-		),
-		ZXVersion (versionNumber: 5, alignmentCenters: [ 6, 30 ], 
-			ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 1, words: 108)),
-			ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 2, words: 43)),
-			ECBlocks (wordsPerBlock: 18, blocks: ECB (count: 2, words: 15), ECB (count: 2, words: 16)),
-			ECBlocks (wordsPerBlock: 22, blocks: ECB (count: 2, words: 11), ECB (count: 2, words: 12))
-		),
-		ZXVersion (versionNumber: 6, alignmentCenters: [ 6, 34 ], 
-			ECBlocks (wordsPerBlock: 18, blocks: ECB (count: 2, words: 68)),
-			ECBlocks (wordsPerBlock: 16, blocks: ECB (count: 4, words: 27)),
-			ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 4, words: 19)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 4, words: 15))
-		),
-		ZXVersion (versionNumber: 7, alignmentCenters: [ 6, 22, 38 ], 
-			ECBlocks (wordsPerBlock: 20, blocks: ECB (count: 2, words: 78)),
-			ECBlocks (wordsPerBlock: 18, blocks: ECB (count: 4, words: 31)),
-			ECBlocks (wordsPerBlock: 18, blocks: ECB (count: 2, words: 14), ECB (count: 4, words: 15)),
-			ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 4, words: 13), ECB (count: 1, words: 14))
-		),
-		ZXVersion (versionNumber: 8, alignmentCenters: [ 6, 24, 42 ], 
-			ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 2, words: 97)),
-			ECBlocks (wordsPerBlock: 22, blocks: ECB (count: 2, words: 38), ECB (count: 2, words: 39)),
-			ECBlocks (wordsPerBlock: 22, blocks: ECB (count: 4, words: 18), ECB (count: 2, words: 19)),
-			ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 4, words: 14), ECB (count: 2, words: 15))
-		),
-		ZXVersion (versionNumber: 9, alignmentCenters: [ 6, 26, 46 ], 
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 2, words: 116)),
-			ECBlocks (wordsPerBlock: 22, blocks: ECB (count: 3, words: 36), ECB (count: 2, words: 37)),
-			ECBlocks (wordsPerBlock: 20, blocks: ECB (count: 4, words: 16), ECB (count: 4, words: 17)),
-			ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 4, words: 12), ECB (count: 4, words: 13))
-		),
-		ZXVersion (versionNumber: 10, alignmentCenters: [ 6, 28, 50 ], 
-			ECBlocks (wordsPerBlock: 18, blocks: ECB (count: 2, words: 68), ECB (count: 2, words: 69)),
-			ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 4, words: 43), ECB (count: 1, words: 44)),
-			ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 6, words: 19), ECB (count: 2, words: 20)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 6, words: 15), ECB (count: 2, words: 16))
-		),
-		ZXVersion (versionNumber: 11, alignmentCenters: [ 6, 30, 54 ], 
-			ECBlocks (wordsPerBlock: 20, blocks: ECB (count: 4, words: 81)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 1, words: 50), ECB (count: 4, words: 51)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 4, words: 22), ECB (count: 4, words: 23)),
-			ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 3, words: 12), ECB (count: 8, words: 13))
-		),
-		ZXVersion (versionNumber: 12, alignmentCenters: [ 6, 32, 58 ], 
-			ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 2, words: 92), ECB (count: 2, words: 93)),
-			ECBlocks (wordsPerBlock: 22, blocks: ECB (count: 6, words: 36), ECB (count: 2, words: 37)),
-			ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 4, words: 20), ECB (count: 6, words: 21)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 7, words: 14), ECB (count: 4, words: 15))
-		),
-		ZXVersion (versionNumber: 13, alignmentCenters: [ 6, 34, 62 ], 
-			ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 4, words: 107)),
-			ECBlocks (wordsPerBlock: 22, blocks: ECB (count: 8, words: 37), ECB (count: 1, words: 38)),
-			ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 8, words: 20), ECB (count: 4, words: 21)),
-			ECBlocks (wordsPerBlock: 22, blocks: ECB (count: 12, words: 11), ECB (count: 4, words: 12))
-		),
-		ZXVersion (versionNumber: 14, alignmentCenters: [ 6, 26, 46, 66 ], 
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 3, words: 115), ECB (count: 1, words: 116)),
-			ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 4, words: 40), ECB (count: 5, words: 41)),
-			ECBlocks (wordsPerBlock: 20, blocks: ECB (count: 11, words: 16), ECB (count: 5, words: 17)),
-			ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 11, words: 12), ECB (count: 5, words: 13))
-		),
-		ZXVersion (versionNumber: 15, alignmentCenters: [ 6, 26, 48, 70 ], 
-			ECBlocks (wordsPerBlock: 22, blocks: ECB (count: 5, words: 87), ECB (count: 1, words: 88)),
-			ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 5, words: 41), ECB (count: 5, words: 42)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 5, words: 24), ECB (count: 7, words: 25)),
-			ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 11, words: 12), ECB (count: 7, words: 13))
-		),
-		ZXVersion (versionNumber: 16, alignmentCenters: [ 6, 26, 50, 74 ], 
-			ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 5, words: 98), ECB (count: 1, words: 99)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 7, words: 45), ECB (count: 3, words: 46)),
-			ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 15, words: 19), ECB (count: 2, words: 20)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 3, words: 15), ECB (count: 13, words: 16))
-		),
-		ZXVersion (versionNumber: 17, alignmentCenters: [ 6, 30, 54, 78 ], 
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 1, words: 107), ECB (count: 5, words: 108)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 10, words: 46), ECB (count: 1, words: 47)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 1, words: 22), ECB (count: 15, words: 23)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 2, words: 14), ECB (count: 17, words: 15))
-		),
-		ZXVersion (versionNumber: 18, alignmentCenters: [ 6, 30, 56, 82 ], 
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 5, words: 120), ECB (count: 1, words: 121)),
-			ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 9, words: 43), ECB (count: 4, words: 44)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 17, words: 22), ECB (count: 1, words: 23)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 2, words: 14), ECB (count: 19, words: 15))
-		),
-		ZXVersion (versionNumber: 19, alignmentCenters: [ 6, 30, 58, 86 ], 
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 3, words: 113), ECB (count: 4, words: 114)),
-			ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 3, words: 44), ECB (count: 11, words: 45)),
-			ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 17, words: 21), ECB (count: 4, words: 22)),
-			ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 9, words: 13), ECB (count: 16, words: 14))
-		),
-		ZXVersion (versionNumber: 20, alignmentCenters: [ 6, 34, 62, 90 ], 
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 3, words: 107), ECB (count: 5, words: 108)),
-			ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 3, words: 41), ECB (count: 13, words: 42)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 15, words: 24), ECB (count: 5, words: 25)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 15, words: 15), ECB (count: 10, words: 16))
-		),
-		ZXVersion (versionNumber: 21, alignmentCenters: [ 6, 28, 50, 72, 94 ], 
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 4, words: 116), ECB (count: 4, words: 117)),
-			ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 17, words: 42)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 17, words: 22), ECB (count: 6, words: 23)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 19, words: 16), ECB (count: 6, words: 17))
-		),
-		ZXVersion (versionNumber: 22, alignmentCenters: [ 6, 26, 50, 74, 98 ], 
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 2, words: 111), ECB (count: 7, words: 112)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 17, words: 46)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 7, words: 24), ECB (count: 16, words: 25)),
-			ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 34, words: 13))
-		),
-		ZXVersion (versionNumber: 23, alignmentCenters: [ 6, 30, 54, 78, 102 ], 
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 4, words: 121), ECB (count: 5, words: 122)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 4, words: 47), ECB (count: 14, words: 48)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 11, words: 24), ECB (count: 14, words: 25)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 16, words: 15), ECB (count: 14, words: 16))
-		),
-		ZXVersion (versionNumber: 24, alignmentCenters: [ 6, 28, 54, 80, 106 ], 
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 6, words: 117), ECB (count: 4, words: 118)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 6, words: 45), ECB (count: 14, words: 46)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 11, words: 24), ECB (count: 16, words: 25)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 30, words: 16), ECB (count: 2, words: 17))
-		),
-		ZXVersion (versionNumber: 25, alignmentCenters: [ 6, 32, 58, 84, 110 ], 
-			ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 8, words: 106), ECB (count: 4, words: 107)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 8, words: 47), ECB (count: 13, words: 48)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 7, words: 24), ECB (count: 22, words: 25)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 22, words: 15), ECB (count: 13, words: 16))
-		),
-		ZXVersion (versionNumber: 26, alignmentCenters: [ 6, 30, 58, 86, 114 ], 
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 10, words: 114), ECB (count: 2, words: 115)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 19, words: 46), ECB (count: 4, words: 47)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 28, words: 22), ECB (count: 6, words: 23)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 33, words: 16), ECB (count: 4, words: 17))
-		),
-		ZXVersion (versionNumber: 27, alignmentCenters: [ 6, 34, 62, 90, 118 ], 
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 8, words: 122), ECB (count: 4, words: 123)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 22, words: 45), ECB (count: 3, words: 46)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 8, words: 23), ECB (count: 26, words: 24)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 12, words: 15), ECB (count: 28, words: 16))
-		),
-		ZXVersion (versionNumber: 28, alignmentCenters: [ 6, 26, 50, 74, 98, 122 ], 
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 3, words: 117), ECB (count: 10, words: 118)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 3, words: 45), ECB (count: 23, words: 46)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 4, words: 24), ECB (count: 31, words: 25)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 11, words: 15), ECB (count: 31, words: 16))
-		),
-		ZXVersion (versionNumber: 29, alignmentCenters: [ 6, 30, 54, 78, 102, 126 ], 
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 7, words: 116), ECB (count: 7, words: 117)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 21, words: 45), ECB (count: 7, words: 46)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 1, words: 23), ECB (count: 37, words: 24)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 19, words: 15), ECB (count: 26, words: 16))
-		),
-		ZXVersion (versionNumber: 30, alignmentCenters: [ 6, 26, 52, 78, 104, 130 ], 
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 5, words: 115), ECB (count: 10, words: 116)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 19, words: 47), ECB (count: 10, words: 48)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 15, words: 24), ECB (count: 25, words: 25)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 23, words: 15), ECB (count: 25, words: 16))
-		),
-		ZXVersion (versionNumber: 31, alignmentCenters: [ 6, 30, 56, 82, 108, 134 ], 
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 13, words: 115), ECB (count: 3, words: 116)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 2, words: 46), ECB (count: 29, words: 47)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 42, words: 24), ECB (count: 1, words: 25)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 23, words: 15), ECB (count: 28, words: 16))
-		),
-		ZXVersion (versionNumber: 32, alignmentCenters: [ 6, 34, 60, 86, 112, 138 ], 
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 17, words: 115)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 10, words: 46), ECB (count: 23, words: 47)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 10, words: 24), ECB (count: 35, words: 25)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 19, words: 15), ECB (count: 35, words: 16))
-		),
-		ZXVersion (versionNumber: 33, alignmentCenters: [ 6, 30, 58, 86, 114, 142 ], 
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 17, words: 115), ECB (count: 1, words: 116)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 14, words: 46), ECB (count: 21, words: 47)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 29, words: 24), ECB (count: 19, words: 25)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 11, words: 15), ECB (count: 46, words: 16))
-		),
-		ZXVersion (versionNumber: 34, alignmentCenters: [ 6, 34, 62, 90, 118, 146 ], 
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 13, words: 115), ECB (count: 6, words: 116)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 14, words: 46), ECB (count: 23, words: 47)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 44, words: 24), ECB (count: 7, words: 25)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 59, words: 16), ECB (count: 1, words: 17))
-		),
-		ZXVersion (versionNumber: 35, alignmentCenters: [ 6, 30, 54, 78, 102, 126, 150 ], 
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 12, words: 121), ECB (count: 7, words: 122)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 12, words: 47), ECB (count: 26, words: 48)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 39, words: 24), ECB (count: 14, words: 25)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 22, words: 15), ECB (count: 41, words: 16))
-		),
-		ZXVersion (versionNumber: 36, alignmentCenters: [ 6, 24, 50, 76, 102, 128, 154 ], 
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 6, words: 121), ECB (count: 14, words: 122)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 6, words: 47), ECB (count: 34, words: 48)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 46, words: 24), ECB (count: 10, words: 25)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 2, words: 15), ECB (count: 64, words: 16))
-		),
-		ZXVersion (versionNumber: 37, alignmentCenters: [ 6, 28, 54, 80, 106, 132, 158 ], 
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 17, words: 122), ECB (count: 4, words: 123)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 29, words: 46), ECB (count: 14, words: 47)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 49, words: 24), ECB (count: 10, words: 25)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 24, words: 15), ECB (count: 46, words: 16))
-		),
-		ZXVersion (versionNumber: 38, alignmentCenters: [ 6, 32, 58, 84, 110, 136, 162 ], 
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 4, words: 122), ECB (count: 18, words: 123)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 13, words: 46), ECB (count: 32, words: 47)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 48, words: 24), ECB (count: 14, words: 25)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 42, words: 15), ECB (count: 32, words: 16))
-		),
-		ZXVersion (versionNumber: 39, alignmentCenters: [ 6, 26, 54, 82, 110, 138, 166 ], 
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 20, words: 117), ECB (count: 4, words: 118)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 40, words: 47), ECB (count: 7, words: 48)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 43, words: 24), ECB (count: 22, words: 25)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 10, words: 15), ECB (count: 67, words: 16))
-		),
-		ZXVersion (versionNumber: 40, alignmentCenters: [ 6, 30, 58, 86, 114, 142, 170 ], 
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 19, words: 118), ECB (count: 6, words: 119)),
-			ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 18, words: 47), ECB (count: 31, words: 48)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 34, words: 24), ECB (count: 34, words: 25)),
-			ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 20, words: 15), ECB (count: 61, words: 16))
-		),
+		ZXVersion (versionNumber: 1, alignmentCenters: [ ], [
+			.L : ECBlocks (wordsPerBlock: 7, blocks: ECB (count: 1, words: 19)),
+			.M : ECBlocks (wordsPerBlock: 10, blocks: ECB (count: 1, words: 16)),
+			.Q : ECBlocks (wordsPerBlock: 13, blocks: ECB (count: 1, words: 13)),
+			.H : ECBlocks (wordsPerBlock: 17, blocks: ECB (count: 1, words: 9))
+		]),
+		ZXVersion (versionNumber: 2, alignmentCenters: [ 6, 18 ], [
+			.L : ECBlocks (wordsPerBlock: 10, blocks: ECB (count: 1, words: 34)),
+			.M : ECBlocks (wordsPerBlock: 16, blocks: ECB (count: 1, words: 28)),
+			.Q : ECBlocks (wordsPerBlock: 22, blocks: ECB (count: 1, words: 22)),
+			.H : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 1, words: 16))
+		]),
+		ZXVersion (versionNumber: 3, alignmentCenters: [ 6, 22 ], [
+			.L : ECBlocks (wordsPerBlock: 15, blocks: ECB (count: 1, words: 55)),
+			.M : ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 1, words: 44)),
+			.Q : ECBlocks (wordsPerBlock: 18, blocks: ECB (count: 2, words: 17)),
+			.H : ECBlocks (wordsPerBlock: 22, blocks: ECB (count: 2, words: 13))
+		]),
+		ZXVersion (versionNumber: 4, alignmentCenters: [ 6, 26 ], [
+			.L : ECBlocks (wordsPerBlock: 20, blocks: ECB (count: 1, words: 80)),
+			.M : ECBlocks (wordsPerBlock: 18, blocks: ECB (count: 2, words: 32)),
+			.Q : ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 2, words: 24)),
+			.H : ECBlocks (wordsPerBlock: 16, blocks: ECB (count: 4, words: 9))
+		]),
+		ZXVersion (versionNumber: 5, alignmentCenters: [ 6, 30 ], [
+			.L : ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 1, words: 108)),
+			.M : ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 2, words: 43)),
+			.Q : ECBlocks (wordsPerBlock: 18, blocks: ECB (count: 2, words: 15), ECB (count: 2, words: 16)),
+			.H : ECBlocks (wordsPerBlock: 22, blocks: ECB (count: 2, words: 11), ECB (count: 2, words: 12))
+		]),
+		ZXVersion (versionNumber: 6, alignmentCenters: [ 6, 34 ], [
+			.L : ECBlocks (wordsPerBlock: 18, blocks: ECB (count: 2, words: 68)),
+			.M : ECBlocks (wordsPerBlock: 16, blocks: ECB (count: 4, words: 27)),
+			.Q : ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 4, words: 19)),
+			.H : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 4, words: 15))
+		]),
+		ZXVersion (versionNumber: 7, alignmentCenters: [ 6, 22, 38 ], [
+			.L : ECBlocks (wordsPerBlock: 20, blocks: ECB (count: 2, words: 78)),
+			.M : ECBlocks (wordsPerBlock: 18, blocks: ECB (count: 4, words: 31)),
+			.Q : ECBlocks (wordsPerBlock: 18, blocks: ECB (count: 2, words: 14), ECB (count: 4, words: 15)),
+			.H : ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 4, words: 13), ECB (count: 1, words: 14))
+		]),
+		ZXVersion (versionNumber: 8, alignmentCenters: [ 6, 24, 42 ], [
+			.L : ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 2, words: 97)),
+			.M : ECBlocks (wordsPerBlock: 22, blocks: ECB (count: 2, words: 38), ECB (count: 2, words: 39)),
+			.Q : ECBlocks (wordsPerBlock: 22, blocks: ECB (count: 4, words: 18), ECB (count: 2, words: 19)),
+			.H : ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 4, words: 14), ECB (count: 2, words: 15))
+		]),
+		ZXVersion (versionNumber: 9, alignmentCenters: [ 6, 26, 46 ], [
+			.L : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 2, words: 116)),
+			.M : ECBlocks (wordsPerBlock: 22, blocks: ECB (count: 3, words: 36), ECB (count: 2, words: 37)),
+			.Q : ECBlocks (wordsPerBlock: 20, blocks: ECB (count: 4, words: 16), ECB (count: 4, words: 17)),
+			.H : ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 4, words: 12), ECB (count: 4, words: 13))
+		]),
+		ZXVersion (versionNumber: 10, alignmentCenters: [ 6, 28, 50 ], [
+			.L : ECBlocks (wordsPerBlock: 18, blocks: ECB (count: 2, words: 68), ECB (count: 2, words: 69)),
+			.M : ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 4, words: 43), ECB (count: 1, words: 44)),
+			.Q : ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 6, words: 19), ECB (count: 2, words: 20)),
+			.H : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 6, words: 15), ECB (count: 2, words: 16))
+		]),
+		ZXVersion (versionNumber: 11, alignmentCenters: [ 6, 30, 54 ], [
+			.L : ECBlocks (wordsPerBlock: 20, blocks: ECB (count: 4, words: 81)),
+			.M : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 1, words: 50), ECB (count: 4, words: 51)),
+			.Q : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 4, words: 22), ECB (count: 4, words: 23)),
+			.H : ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 3, words: 12), ECB (count: 8, words: 13))
+		]),
+		ZXVersion (versionNumber: 12, alignmentCenters: [ 6, 32, 58 ], [
+			.L : ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 2, words: 92), ECB (count: 2, words: 93)),
+			.M : ECBlocks (wordsPerBlock: 22, blocks: ECB (count: 6, words: 36), ECB (count: 2, words: 37)),
+			.Q : ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 4, words: 20), ECB (count: 6, words: 21)),
+			.H : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 7, words: 14), ECB (count: 4, words: 15))
+		]),
+		ZXVersion (versionNumber: 13, alignmentCenters: [ 6, 34, 62 ], [
+			.L : ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 4, words: 107)),
+			.M : ECBlocks (wordsPerBlock: 22, blocks: ECB (count: 8, words: 37), ECB (count: 1, words: 38)),
+			.Q : ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 8, words: 20), ECB (count: 4, words: 21)),
+			.H : ECBlocks (wordsPerBlock: 22, blocks: ECB (count: 12, words: 11), ECB (count: 4, words: 12))
+		]),
+		ZXVersion (versionNumber: 14, alignmentCenters: [ 6, 26, 46, 66 ], [
+			.L : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 3, words: 115), ECB (count: 1, words: 116)),
+			.M : ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 4, words: 40), ECB (count: 5, words: 41)),
+			.Q : ECBlocks (wordsPerBlock: 20, blocks: ECB (count: 11, words: 16), ECB (count: 5, words: 17)),
+			.H : ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 11, words: 12), ECB (count: 5, words: 13))
+		]),
+		ZXVersion (versionNumber: 15, alignmentCenters: [ 6, 26, 48, 70 ], [
+			.L : ECBlocks (wordsPerBlock: 22, blocks: ECB (count: 5, words: 87), ECB (count: 1, words: 88)),
+			.M : ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 5, words: 41), ECB (count: 5, words: 42)),
+			.Q : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 5, words: 24), ECB (count: 7, words: 25)),
+			.H : ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 11, words: 12), ECB (count: 7, words: 13))
+		]),
+		ZXVersion (versionNumber: 16, alignmentCenters: [ 6, 26, 50, 74 ], [
+			.L : ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 5, words: 98), ECB (count: 1, words: 99)),
+			.M : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 7, words: 45), ECB (count: 3, words: 46)),
+			.Q : ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 15, words: 19), ECB (count: 2, words: 20)),
+			.H : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 3, words: 15), ECB (count: 13, words: 16))
+		]),
+		ZXVersion (versionNumber: 17, alignmentCenters: [ 6, 30, 54, 78 ], [
+			.L : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 1, words: 107), ECB (count: 5, words: 108)),
+			.M : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 10, words: 46), ECB (count: 1, words: 47)),
+			.Q : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 1, words: 22), ECB (count: 15, words: 23)),
+			.H : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 2, words: 14), ECB (count: 17, words: 15))
+		]),
+		ZXVersion (versionNumber: 18, alignmentCenters: [ 6, 30, 56, 82 ], [
+			.L : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 5, words: 120), ECB (count: 1, words: 121)),
+			.M : ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 9, words: 43), ECB (count: 4, words: 44)),
+			.Q : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 17, words: 22), ECB (count: 1, words: 23)),
+			.H : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 2, words: 14), ECB (count: 19, words: 15))
+		]),
+		ZXVersion (versionNumber: 19, alignmentCenters: [ 6, 30, 58, 86 ], [
+			.L : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 3, words: 113), ECB (count: 4, words: 114)),
+			.M : ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 3, words: 44), ECB (count: 11, words: 45)),
+			.Q : ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 17, words: 21), ECB (count: 4, words: 22)),
+			.H : ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 9, words: 13), ECB (count: 16, words: 14))
+		]),
+		ZXVersion (versionNumber: 20, alignmentCenters: [ 6, 34, 62, 90 ], [
+			.L : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 3, words: 107), ECB (count: 5, words: 108)),
+			.M : ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 3, words: 41), ECB (count: 13, words: 42)),
+			.Q : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 15, words: 24), ECB (count: 5, words: 25)),
+			.H : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 15, words: 15), ECB (count: 10, words: 16))
+		]),
+		ZXVersion (versionNumber: 21, alignmentCenters: [ 6, 28, 50, 72, 94 ], [
+			.L : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 4, words: 116), ECB (count: 4, words: 117)),
+			.M : ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 17, words: 42)),
+			.Q : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 17, words: 22), ECB (count: 6, words: 23)),
+			.H : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 19, words: 16), ECB (count: 6, words: 17))
+		]),
+		ZXVersion (versionNumber: 22, alignmentCenters: [ 6, 26, 50, 74, 98 ], [
+			.L : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 2, words: 111), ECB (count: 7, words: 112)),
+			.M : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 17, words: 46)),
+			.Q : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 7, words: 24), ECB (count: 16, words: 25)),
+			.H : ECBlocks (wordsPerBlock: 24, blocks: ECB (count: 34, words: 13))
+		]),
+		ZXVersion (versionNumber: 23, alignmentCenters: [ 6, 30, 54, 78, 102 ], [
+			.L : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 4, words: 121), ECB (count: 5, words: 122)),
+			.M : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 4, words: 47), ECB (count: 14, words: 48)),
+			.Q : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 11, words: 24), ECB (count: 14, words: 25)),
+			.H : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 16, words: 15), ECB (count: 14, words: 16))
+		]),
+		ZXVersion (versionNumber: 24, alignmentCenters: [ 6, 28, 54, 80, 106 ], [
+			.L : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 6, words: 117), ECB (count: 4, words: 118)),
+			.M : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 6, words: 45), ECB (count: 14, words: 46)),
+			.Q : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 11, words: 24), ECB (count: 16, words: 25)),
+			.H : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 30, words: 16), ECB (count: 2, words: 17))
+		]),
+		ZXVersion (versionNumber: 25, alignmentCenters: [ 6, 32, 58, 84, 110 ], [
+			.L : ECBlocks (wordsPerBlock: 26, blocks: ECB (count: 8, words: 106), ECB (count: 4, words: 107)),
+			.M : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 8, words: 47), ECB (count: 13, words: 48)),
+			.Q : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 7, words: 24), ECB (count: 22, words: 25)),
+			.H : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 22, words: 15), ECB (count: 13, words: 16))
+		]),
+		ZXVersion (versionNumber: 26, alignmentCenters: [ 6, 30, 58, 86, 114 ], [
+			.L : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 10, words: 114), ECB (count: 2, words: 115)),
+			.M : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 19, words: 46), ECB (count: 4, words: 47)),
+			.Q : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 28, words: 22), ECB (count: 6, words: 23)),
+			.H : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 33, words: 16), ECB (count: 4, words: 17))
+		]),
+		ZXVersion (versionNumber: 27, alignmentCenters: [ 6, 34, 62, 90, 118 ], [
+			.L : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 8, words: 122), ECB (count: 4, words: 123)),
+			.M : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 22, words: 45), ECB (count: 3, words: 46)),
+			.Q : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 8, words: 23), ECB (count: 26, words: 24)),
+			.H : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 12, words: 15), ECB (count: 28, words: 16))
+		]),
+		ZXVersion (versionNumber: 28, alignmentCenters: [ 6, 26, 50, 74, 98, 122 ], [
+			.L : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 3, words: 117), ECB (count: 10, words: 118)),
+			.M : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 3, words: 45), ECB (count: 23, words: 46)),
+			.Q : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 4, words: 24), ECB (count: 31, words: 25)),
+			.H : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 11, words: 15), ECB (count: 31, words: 16))
+		]),
+		ZXVersion (versionNumber: 29, alignmentCenters: [ 6, 30, 54, 78, 102, 126 ], [
+			.L : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 7, words: 116), ECB (count: 7, words: 117)),
+			.M : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 21, words: 45), ECB (count: 7, words: 46)),
+			.Q : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 1, words: 23), ECB (count: 37, words: 24)),
+			.H : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 19, words: 15), ECB (count: 26, words: 16))
+		]),
+		ZXVersion (versionNumber: 30, alignmentCenters: [ 6, 26, 52, 78, 104, 130 ], [
+			.L : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 5, words: 115), ECB (count: 10, words: 116)),
+			.M : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 19, words: 47), ECB (count: 10, words: 48)),
+			.Q : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 15, words: 24), ECB (count: 25, words: 25)),
+			.H : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 23, words: 15), ECB (count: 25, words: 16))
+		]),
+		ZXVersion (versionNumber: 31, alignmentCenters: [ 6, 30, 56, 82, 108, 134 ], [
+			.L : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 13, words: 115), ECB (count: 3, words: 116)),
+			.M : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 2, words: 46), ECB (count: 29, words: 47)),
+			.Q : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 42, words: 24), ECB (count: 1, words: 25)),
+			.H : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 23, words: 15), ECB (count: 28, words: 16))
+		]),
+		ZXVersion (versionNumber: 32, alignmentCenters: [ 6, 34, 60, 86, 112, 138 ], [
+			.L : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 17, words: 115)),
+			.M : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 10, words: 46), ECB (count: 23, words: 47)),
+			.Q : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 10, words: 24), ECB (count: 35, words: 25)),
+			.H : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 19, words: 15), ECB (count: 35, words: 16))
+		]),
+		ZXVersion (versionNumber: 33, alignmentCenters: [ 6, 30, 58, 86, 114, 142 ], [
+			.L : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 17, words: 115), ECB (count: 1, words: 116)),
+			.M : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 14, words: 46), ECB (count: 21, words: 47)),
+			.Q : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 29, words: 24), ECB (count: 19, words: 25)),
+			.H : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 11, words: 15), ECB (count: 46, words: 16))
+		]),
+		ZXVersion (versionNumber: 34, alignmentCenters: [ 6, 34, 62, 90, 118, 146 ], [
+			.L : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 13, words: 115), ECB (count: 6, words: 116)),
+			.M : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 14, words: 46), ECB (count: 23, words: 47)),
+			.Q : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 44, words: 24), ECB (count: 7, words: 25)),
+			.H : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 59, words: 16), ECB (count: 1, words: 17))
+		]),
+		ZXVersion (versionNumber: 35, alignmentCenters: [ 6, 30, 54, 78, 102, 126, 150 ], [
+			.L : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 12, words: 121), ECB (count: 7, words: 122)),
+			.M : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 12, words: 47), ECB (count: 26, words: 48)),
+			.Q : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 39, words: 24), ECB (count: 14, words: 25)),
+			.H : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 22, words: 15), ECB (count: 41, words: 16))
+		]),
+		ZXVersion (versionNumber: 36, alignmentCenters: [ 6, 24, 50, 76, 102, 128, 154 ], [
+			.L : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 6, words: 121), ECB (count: 14, words: 122)),
+			.M : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 6, words: 47), ECB (count: 34, words: 48)),
+			.Q : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 46, words: 24), ECB (count: 10, words: 25)),
+			.H : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 2, words: 15), ECB (count: 64, words: 16))
+		]),
+		ZXVersion (versionNumber: 37, alignmentCenters: [ 6, 28, 54, 80, 106, 132, 158 ], [
+			.L : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 17, words: 122), ECB (count: 4, words: 123)),
+			.M : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 29, words: 46), ECB (count: 14, words: 47)),
+			.Q : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 49, words: 24), ECB (count: 10, words: 25)),
+			.H : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 24, words: 15), ECB (count: 46, words: 16))
+		]),
+		ZXVersion (versionNumber: 38, alignmentCenters: [ 6, 32, 58, 84, 110, 136, 162 ], [
+			.L : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 4, words: 122), ECB (count: 18, words: 123)),
+			.M : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 13, words: 46), ECB (count: 32, words: 47)),
+			.Q : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 48, words: 24), ECB (count: 14, words: 25)),
+			.H : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 42, words: 15), ECB (count: 32, words: 16))
+		]),
+		ZXVersion (versionNumber: 39, alignmentCenters: [ 6, 26, 54, 82, 110, 138, 166 ], [
+			.L : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 20, words: 117), ECB (count: 4, words: 118)),
+			.M : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 40, words: 47), ECB (count: 7, words: 48)),
+			.Q : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 43, words: 24), ECB (count: 22, words: 25)),
+			.H : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 10, words: 15), ECB (count: 67, words: 16))
+		]),
+		ZXVersion (versionNumber: 40, alignmentCenters: [ 6, 30, 58, 86, 114, 142, 170 ], [
+			.L : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 19, words: 118), ECB (count: 6, words: 119)),
+			.M : ECBlocks (wordsPerBlock: 28, blocks: ECB (count: 18, words: 47), ECB (count: 31, words: 48)),
+			.Q : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 34, words: 24), ECB (count: 34, words: 25)),
+			.H : ECBlocks (wordsPerBlock: 30, blocks: ECB (count: 20, words: 15), ECB (count: 61, words: 16))
+		]),
 	];
 }
