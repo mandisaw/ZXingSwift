@@ -262,9 +262,6 @@ extension ZXByteMatrix {
 	private mutating func encodeData (data: ZXBitArray, maskPattern: Int, 
 		shouldSkipMasking: Bool = false) throws {
 		
-		let colRange = 0..<width;
-		let rowRange = 0..<height;
-		
 		// Starting from bottom-right cell, scan pairs vertically, right to left.
 		var colIdx : Int = width - 1;
 		var rowIdx : Int = height - 1;
@@ -275,16 +272,18 @@ extension ZXByteMatrix {
 		var dataBitIndex : Int = 0;
 		var dataBit : Bool;
 		
-		while (colRange.contains (colIdx)) {
+		while (colIdx > 0) {
 			// Skip vertical timing pattern
 			if (colIdx == ZXByteMatrix.TimingPatternCoordinateIndex) {
 				colIdx -= 1;
 			}
 			
-			while (rowRange.contains (rowIdx)) {
-				for colIdx in colIdx ... colIdx+1 {
+			while ((rowIdx >= 0) && (rowIdx < height)) {
+				for idx in 0..<2 {
+					let colIdx_inner = colIdx - idx;
+					
 					// Skip this cell if it's already populated
-					if (isEmpty (column: colIdx, row: rowIdx) == false) {
+					if (isEmpty (column: colIdx_inner, row: rowIdx) == false) {
 						continue;
 					}
 					
@@ -298,12 +297,12 @@ extension ZXByteMatrix {
 					
 					// For debugging purposes, masking may be skipped
 					if (try !shouldSkipMasking && 
-						ZXMaskUtils.getDataMaskBit (maskPattern: maskPattern, column: colIdx, row: rowIdx)) {
+						ZXMaskUtils.getDataMaskBit (maskPattern: maskPattern, column: colIdx_inner, row: rowIdx)) {
 						
 						dataBit = !dataBit;
 					}
 					
-					setValue (dataBit, column: colIdx, row: rowIdx);
+					setValue (dataBit, column: colIdx_inner, row: rowIdx);
 				}
 				
 				rowIdx += (scanDirection ? -1 : 1);
@@ -311,6 +310,7 @@ extension ZXByteMatrix {
 			
 			// Reverse vertical-scan direction and continue horizontal-scan to the left
 			scanDirection = !scanDirection;
+			rowIdx += (scanDirection ? -1 : 1);
 			colIdx -= 2;
 		}
 		
@@ -422,6 +422,7 @@ extension ZXByteMatrix {
 				curr_position = (width - 1 - idx, 8);
 				setValue (curr_bit, column: curr_position.x, row: curr_position.y);
 				
+			} else {
 				// Bottom-left corner
 				curr_position = (8, height - 7 + (idx - 8));
 				setValue (curr_bit, column: curr_position.x, row: curr_position.y);
@@ -467,7 +468,7 @@ extension ZXByteMatrix {
 		
 		let polyMSB : Int = poly.bitWidth;
 		
-		var remainder : Int = input << polyMSB - 1;
+		var remainder : Int = input << (polyMSB - 1);
 		
 		// Do the division using exclusive-or operations
 		while (remainder.bitWidth >= polyMSB) {

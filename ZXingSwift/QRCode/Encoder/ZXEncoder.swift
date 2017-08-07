@@ -14,6 +14,8 @@ import Foundation
  however various constituent portions may be found in other parts of the specification. */
 public final class ZXEncoder : NSObject {
 	
+	private static let TAG = String (describing: ZXEncoder.self) + ": %@";
+	
 	static var DefaultMode : ZXMode = ZXMode.Byte;
 	
 	static let SupportedModes : [ZXMode] = [
@@ -98,6 +100,9 @@ public final class ZXEncoder : NSObject {
 		
 		qrCode.matrix = try ZXByteMatrix (data: errorCorrectedBits, errorCorrectionLevel: ecLevel, 
 			version: version, maskPattern: qrCode.maskPattern);
+		
+//		MyLog.d(TAG, "QR Code: content: \(content), encoding: \(characterEncoding as Optional), " + EOL + 
+//			"\(qrCode.debugDescription)");
 		
 		return qrCode;
 	}
@@ -208,7 +213,7 @@ public final class ZXEncoder : NSObject {
 		data: inout ZXBitArray) throws {
 		
 		let bytesCapacity : Int = version.maxDataBytesSupported (errorCorrectionLevel: ecLevel);
-		let bitsCapacity = (bytesCapacity + 7) / 8;
+		let bitsCapacity = bytesCapacity * 8;
 		
 		if (data.count > bitsCapacity) {
 			throw ZXWriterError.InvalidFormat (
@@ -460,11 +465,11 @@ public final class ZXEncoder : NSObject {
 		data: ZXBitArray) throws -> ZXBitArray {
 		
 		let numDataBytes : Int = version.maxDataBytesSupported (errorCorrectionLevel: ecLevel);
-		let bitsCapacity = (numDataBytes + 7) / 8;
+		let testDataBytesCount = (data.count + 7) / 8;
 		
-		if (data.count != bitsCapacity) {
+		if (testDataBytesCount != numDataBytes) {
 			throw ZXWriterError.InvalidFormat (
-				"Error encoding barcode: Final code size (\(data.count)) does not match capacity (\(bitsCapacity)) for the given parameters");
+				"Error encoding barcode: Final code size (\(testDataBytesCount)) does not match capacity (\(numDataBytes)) for the given parameters");
 		}
 		
 		let numTotalBytes : Int = version.totalCodewords;
@@ -541,17 +546,17 @@ public final class ZXEncoder : NSObject {
 	private static func generateECBytes (data: [UInt8], capacity: Int) throws -> [UInt8] {
 		let numDataBytes : Int = data.count;
 		
-		var source : [Int] = data.map ({ (byte) in 
-			Int (byte & 0xFF);
-		});
+		var source : [Int] = Array (repeating: 0, count: numDataBytes + capacity);
+		for (idx, byte) in data.enumerated() {
+			source [idx] = Int (byte & 0xFF);
+		}
 		
 		try ZXReedSolomonEncoder.encode (toEncode: &source, field: QRReedSolomonField, errorCorrectionBytes: capacity);
 		
-		let startIndex = numDataBytes;
-		let endIndex = numDataBytes + capacity;
-		
-		let result : [UInt8] = source [startIndex..<endIndex]
-			.map ({ UInt8 ($0); });
+		var result : [UInt8] = Array (repeating: 0, count: capacity);
+		for idx in 0..<capacity {
+			result [idx] = UInt8 (source [numDataBytes + idx]);
+		}
 		
 		return result;
 	}
