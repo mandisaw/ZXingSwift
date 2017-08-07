@@ -51,4 +51,32 @@ extension Array where Element == Bool {
 		
 		return result;
 	}
+	
+	internal func debugArray() -> String {
+		var result = String();
+		
+		let SPACE = " ";
+		
+		let width = 8;
+		let height = (count + (width - 1)) / width;
+		var idx : Int;
+		
+		for row in 0..<height {
+			for col in 0..<width {
+				idx = row * width + col;
+				if (idx >= count) { break; }
+				
+				if (self [idx]) {
+					result.append("X");
+				} else {
+					result.append(".");
+				}
+			}
+			
+			result.append (SPACE);
+		}
+		
+		return result;
+
+	}
 }

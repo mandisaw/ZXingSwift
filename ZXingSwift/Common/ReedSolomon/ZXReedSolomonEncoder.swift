@@ -56,10 +56,10 @@ public final class ZXReedSolomonEncoder : NSObject {
 		let generator : ZXGenericGFPoly = try encoder.buildGenerator (degree: ecBytes);
 		let infoCoeffs : [Int] = Array (target.prefix (dataBytesOffset));
 		
-		var info = ZXGenericGFPoly (field: field, coefficients: infoCoeffs);
+		var info : ZXGenericGFPoly = ZXGenericGFPoly (field: field, coefficients: infoCoeffs);
 		info = try info.multiply (degree: ecBytes, coefficient: 1);
 		
-		let remainder = try info.divide (other: generator).remainder;
+		let remainder : ZXGenericGFPoly = try info.divide (other: generator).remainder;
 		let coefficients = remainder.coefficients;
 		
 		let zeroCoeffsOffset = ecBytes - coefficients.count;

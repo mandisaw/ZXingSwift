@@ -42,10 +42,10 @@ public final class ZXQRCode : NSObject {
 		result.append("<<");
 		result.append (EOL + "mode: \(mode as Optional)");
 		result.append (EOL + "error correction level: \(errorCorrectionLevel as Optional)");
-		result.append (EOL + "version: \(version as Optional)");
+		result.append (EOL + "version: \(version?.versionNumber as Optional)");
 		result.append (EOL + "mask pattern: \(maskPattern)");
 		
-		result.append (EOL + "matrix: \(matrix?.debugDescription as Optional)");
+		result.append (EOL + "matrix: \(matrix?.debugDescription ?? "nil")");
 		
 		result.append(EOL + ">>");
 		

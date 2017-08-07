@@ -35,6 +35,14 @@ public struct ZXGenericGFPoly : CustomDebugStringConvertible {
 	let field: ZXGenericGF;
 	let coefficients : [Int];
 	
+	/** 
+	 - Parameters:
+	   - field: The ZXGenericGF instance representing the field to use to perform calculations
+	   - coeffs: coefficients as Integers representing elements of GF(size), arranged from 
+	 most-significant coefficient (highest-power term) to least-significant (lowest-power term)
+	 - Throws: If coeffs is empty, or if leading coefficient is 0 and this is not a constant polynomial
+	 (that is, not the monomial '0')
+	*/
 	init (field: ZXGenericGF, coefficients coeffs: [Int]) {
 //		if (coeffs.isEmpty) {
 //			throw ZXWriterError.IllegalArgument(
