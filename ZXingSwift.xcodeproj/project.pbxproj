@@ -439,6 +439,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
+				"WARNING_CFLAGS[arch=*]" = "-Wpartial-availability";
 			};
 			name = Debug;
 		};
