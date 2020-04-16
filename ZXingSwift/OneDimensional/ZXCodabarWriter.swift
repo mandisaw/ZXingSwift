@@ -19,7 +19,7 @@ public class ZXCodabarWriter : ZXOneDimensionalCodeWriter {
 	override func encode (contents: String) throws -> [Bool] {
 		var source = contents.uppercased (with: DefaultLocale);
 		
-		if (contents.characters.count < 2) {
+		if (contents.count < 2) {
 			// Missing guard characters, so tentatively add default guards
 			source = DefaultGuard + source + DefaultGuard;
 		
@@ -106,7 +106,7 @@ public class ZXCodabarWriter : ZXOneDimensionalCodeWriter {
 		});
 		
 		// Blanks are placed between each character
-		result += input.characters.count - 1;
+		result += input.count - 1;
 		
 		return result;
 	}
