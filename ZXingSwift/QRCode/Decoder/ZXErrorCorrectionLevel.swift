@@ -51,7 +51,7 @@ public enum ZXErrorCorrectionLevel : Int, CustomDebugStringConvertible {
 	}
 	
 	var ordinal : Int {
-		return ZXErrorCorrectionLevel.values.index (of: self) ?? -1;
+		return ZXErrorCorrectionLevel.values.firstIndex (of: self) ?? -1;
 	}
 	
 	public var debugDescription: String {

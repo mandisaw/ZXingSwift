@@ -354,7 +354,7 @@ public final class ZXEncoder : NSObject {
 		let startIndex = characters.startIndex;
 		let len = characters.count;
 		
-		let zero = UnicodeScalar ("0")!.value; // Unicode value of 0
+		let zero = Unicode.Scalar ("0").value; // Unicode value of 0
 		
 		let charAt = {(offset: Int) -> UnicodeScalar in 
 			let idx = characters.index (startIndex, offsetBy: offset);

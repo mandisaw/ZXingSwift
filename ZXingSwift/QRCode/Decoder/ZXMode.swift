@@ -116,7 +116,7 @@ public enum ZXMode : Int, CustomDebugStringConvertible {
 			
 		default:
 			// TODO 8/1/2017: Confirm that this gives the correct count, as opposed to needing individual Unicode code points
-			return content.characters.count;
+			return content.count;
 		}
 	}
 	
